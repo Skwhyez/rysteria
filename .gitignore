@@ -17,3 +17,5 @@ logs.txt
 # Added by cargo
 target/
 
+key.pem
+cert.pem
