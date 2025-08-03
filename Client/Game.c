@@ -572,7 +572,7 @@ void rr_game_init(struct rr_game *this)
                         rr_ui_title_screen_loadout_button_init(23),
                         NULL
                     ),
-                    // rr_ui_text_init("https://github.com/maxnest0x0/rysteria", 15, 0xffffffff),
+                    // rr_ui_text_init("https://github.com/skwhyez3/rysteria", 15, 0xffffffff),
                     NULL
                 ),
             0x00000000),

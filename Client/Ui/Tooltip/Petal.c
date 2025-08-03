@@ -181,8 +181,12 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                           rr_ui_text_init("Petal rotation: ", 12, 0xffd11b67),
                           rr_ui_text_init(extra, 12, 0xffffffff), NULL),
                       -1, 0));
+    }
+    else if (id == rr_petal_id_golden_leaf)
+    {
+        char *extra = malloc((sizeof *extra) * 16);
         extra = malloc((sizeof *extra) * 16);
-        sprintf(extra, "+%.0f%%", 0.02 * (rarity + 1) * 100);
+        sprintf(extra, "%.0f%%", -0.04 * (rarity + 1) * 100);
         rr_ui_container_add_element(
             this, rr_ui_set_justify(
                       rr_ui_h_container_init(
