@@ -2277,6 +2277,20 @@ void rr_renderer_draw_petal(struct rr_renderer *renderer, uint8_t id,
             rr_renderer_fill(renderer);
             rr_renderer_scale(renderer, 1 / 0.2);
             break;
+        case rr_petal_id_missile:
+            rr_renderer_set_fill(renderer, 0xffcdb124);
+            rr_renderer_set_stroke(renderer, 0xffa68e1a);
+            rr_renderer_set_line_width(renderer, 3.0f);
+            rr_renderer_set_line_join(renderer, 1.0f);
+            rr_renderer_set_line_cap(renderer, 1.0f);
+            rr_renderer_begin_path(renderer);
+            rr_renderer_move_to(renderer, 15.00, 0.00);
+            rr_renderer_line_to(renderer, -10.50, 6.06);
+            rr_renderer_line_to(renderer, -10.50, -6.06);
+            rr_renderer_line_to(renderer, 15.00, 0.00);
+            rr_renderer_fill(renderer);
+            rr_renderer_stroke(renderer);
+            break;
         default:
             break;
         }
@@ -2318,7 +2332,9 @@ void rr_renderer_draw_static_petal(struct rr_renderer *renderer, uint8_t id,
             rr_renderer_rotate(renderer, -1.0f);
         else if (id == rr_petal_id_wax)
             rr_renderer_rotate(renderer, 0.3f);
-        rr_renderer_draw_petal(renderer, id, flags);
+        else if (id == rr_petal_id_missile)
+            rr_renderer_rotate(renderer, -1.0f);
+            rr_renderer_draw_petal(renderer, id, flags);
     }
     else
     {

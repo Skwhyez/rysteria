@@ -139,9 +139,10 @@ enum rr_petal_id
     rr_petal_id_mint,        // 32
 
     rr_petal_id_rice,        // 33
-    rr_petal_id_golden_leaf, // 34
+    rr_petal_id_missile,     // 34
+    rr_petal_id_golden_leaf, // 35
 
-    rr_petal_id_max,         // 35
+    rr_petal_id_max,         // 36
 };
 
 enum rr_mob_id

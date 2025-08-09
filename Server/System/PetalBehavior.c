@@ -543,6 +543,28 @@ static void system_flower_petal_movement_logic(
             }
             break;
         }
+        case rr_petal_id_missile:
+        {
+            if ((player_info->input & 1) == 0)
+                break;
+            system_petal_detach(simulation, petal, player_info, outer_pos,
+                                inner_pos, petal_data);
+            petal->effect_delay = 47;
+            physical->friction = 0.5;
+            physical->bearing_angle = curr_angle;
+            EntityIdx target = rr_simulation_find_nearest_enemy(
+                simulation, id, 2100, NULL, is_close_enough_and_angle);
+            if (target != RR_NULL_ENTITY)
+            {
+                struct rr_component_physical *t_physical =
+                    rr_simulation_get_physical(simulation, target);
+                struct rr_vector delta = {t_physical->x - physical->x,
+                                          t_physical->y - physical->y};
+                physical->bearing_angle = rr_vector_theta(&delta);
+                rr_component_physical_set_angle(physical, rr_vector_theta(&delta));
+            }
+            break;
+        }
         default:
             break;
         }
@@ -1023,16 +1045,12 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
         }
         else if (petal->id == rr_petal_id_meat)
             meat_petal_system(simulation, petal);
-        if (--petal->effect_delay <= 0)
+        else if (petal->id == rr_petal_id_missile)
         {
-            rr_simulation_request_entity_deletion(simulation, id, __FILE__, __LINE__);
-            if (petal->id == rr_petal_id_seed)
-            {
-                struct rr_component_flower *target_flower =
-                    rr_simulation_get_flower(simulation, petal->bind_target);
-                rr_component_flower_set_dead(target_flower, simulation, 0);
-            }
-            else if (petal->id == rr_petal_id_nest)
+            rr_vector_from_polar(&physical->acceleration, 25.0f,
+                                 physical->bearing_angle);
+        }
+        else if (petal->id == rr_petal_id_nest)
             {
                 struct rr_component_relations *flower_relations =
                     rr_simulation_get_relations(simulation, relations->owner);
@@ -1071,7 +1089,6 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
             }
         }
     }
-}
 
 static void system_nest_logic(EntityIdx id, void *_simulation)
 {
