@@ -102,6 +102,10 @@ void rr_house_centipede_body_draw(struct rr_renderer *);
 void rr_house_centipede_head_draw(struct rr_renderer *);
 void rr_house_centipede_leg_draw(struct rr_renderer *);
 
+void rr_lanternfly_wing1_draw(struct rr_renderer *);
+void rr_lanternfly_abdomen_draw(struct rr_renderer *);
+void rr_lanternfly_leg_draw(struct rr_renderer *);
+
 void rr_hc_tile_1_draw(struct rr_renderer *);
 void rr_hc_tile_2_draw(struct rr_renderer *);
 void rr_hc_tile_3_draw(struct rr_renderer *);
@@ -116,4 +120,3 @@ void rr_oc_tile_3_draw(struct rr_renderer *);
 
 void rr_prop_fern_draw(struct rr_renderer *);
 void rr_prop_moss_draw(struct rr_renderer *);
-void rr_prop_water_lettuce_draw(struct rr_renderer *);
