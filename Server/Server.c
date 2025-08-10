@@ -534,7 +534,10 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                                   "rivet uuid");
 
 #ifndef SANDBOX
-//  if (strcmp(client->rivet_account.uuid,"9ffb0cba-3d03-4c71-a09f-f461844376a5") == 0)
+            if (
+                strcmp(client->rivet_account.uuid, "9ffb0cba-3d03-4c71-a09f-f461844376a5") == 0
+             || strcmp(client->rivet_account.uuid, "d0cca011-0a23-41e9-9c56-cf21e013587e") == 0
+            )
 #endif
                 client->dev = 1;
 
