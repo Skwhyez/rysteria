@@ -137,12 +137,13 @@ enum rr_petal_id
     rr_petal_id_wax,         // 30
     rr_petal_id_sand,        // 31
     rr_petal_id_mint,        // 32
-
     rr_petal_id_rice,        // 33
     rr_petal_id_missile,     // 34
-    rr_petal_id_golden_leaf, // 35
 
-    rr_petal_id_max,         // 36
+    rr_petal_id_golden_leaf, // 35
+    rr_petal_id_magic_leaf,  // 36
+
+    rr_petal_id_max,         // 37
 };
 
 enum rr_mob_id

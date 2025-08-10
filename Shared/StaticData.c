@@ -82,6 +82,7 @@ struct rr_petal_data RR_PETAL_DATA[rr_petal_id_max] = {
     {rr_petal_id_rice,        rr_rarity_id_unusual,   offensive,  3.0f,   1.0f,   0.0f,   1,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_missile,     rr_rarity_id_rare,      offensive,  8.0f,   1.0f,   0.0f,  10,  5, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_golden_leaf, rr_rarity_id_mythic,    offensive,  13.5f, 12.0f,   8.0f,  19,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_magic_leaf,  rr_rarity_id_exotic,    offensive,  3.0f,   3.0f,   0.0f,  25, 25, {1,1,1,1,1,1,1,1}},
 };    
 
 char const *RR_PETAL_NAMES[rr_petal_id_max] = {
@@ -90,7 +91,7 @@ char const *RR_PETAL_NAMES[rr_petal_id_max] = {
     "Bone",     "Web",       "Seed",      "Gravel", "Club",     "Crest",   "Droplet",
     "Beak",     "Lightning", "Third Eye", "Nest",   "Fireball", "Meat",    "Bubble",
     "Meteor",   "Mandible",  "Wax",       "Sand",   "Mint",     "Rice",    "Missile",
-    "Golden Leaf"
+    "Golden Leaf",           "Magic Leaf"
 };
     
 char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
@@ -129,7 +130,8 @@ char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
     "Remember to feed your pets",
     "The polar opposite of stinger",
     "You can't dodge this one",
-    "A very special leaf that allows you to use your petals even more"
+    "A very special leaf that allows you to use your petals even more",
+    "Seems like this leaf can spawn a different type of mob"
 };
 
 struct rr_mob_data RR_MOB_DATA[rr_mob_id_max] = {
