@@ -741,7 +741,7 @@ system_egg_hatching_logic(struct rr_simulation *simulation,
     }
         if (petal->id == rr_petal_id_magic_leaf)
     {
-        m_id = rr_mob_id_ant;
+        m_id = rr_mob_id_whirlpool;
         m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
     }
     else if (petal->id == rr_petal_id_meteor)

@@ -362,7 +362,7 @@ void rr_renderer_draw_mob(struct rr_renderer *renderer, uint8_t id,
             render_sprite(renderer, id, 1, flags);
         }
         break;
-        case rr_mob_id_lanternfly:
+    case rr_mob_id_lanternfly:
             rr_renderer_scale(renderer, 0.2);
             
             rr_renderer_context_state_init(renderer, &state);
@@ -424,6 +424,16 @@ void rr_renderer_draw_mob(struct rr_renderer *renderer, uint8_t id,
             rr_renderer_translate(renderer, 150, 0);
             render_sprite(renderer, id, 0, flags);
             break;
+    case rr_mob_id_whirlpool:
+            rr_renderer_scale(renderer, 0.35f);
+            rr_renderer_translate(renderer, -35, 0);
+
+            rr_whirlpool_outer_draw(renderer);
+            rr_whirlpool_middle_draw(renderer);
+            rr_whirlpool_inner_draw(renderer);
+            break;
+
+
     }
 
     rr_renderer_context_state_free(renderer, &original_state);

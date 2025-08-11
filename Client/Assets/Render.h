@@ -106,6 +106,17 @@ void rr_lanternfly_wing1_draw(struct rr_renderer *);
 void rr_lanternfly_abdomen_draw(struct rr_renderer *);
 void rr_lanternfly_leg_draw(struct rr_renderer *);
 
+#ifndef RENDER_H
+#define RENDER_H
+
+#include <Client/Renderer/Renderer.h>  // For struct rr_renderer
+
+void rr_whirlpool_outer_draw(struct rr_renderer *renderer);
+void rr_whirlpool_middle_draw(struct rr_renderer *renderer);
+void rr_whirlpool_inner_draw(struct rr_renderer *renderer);
+
+#endif // RENDER_H
+
 void rr_hc_tile_1_draw(struct rr_renderer *);
 void rr_hc_tile_2_draw(struct rr_renderer *);
 void rr_hc_tile_3_draw(struct rr_renderer *);
