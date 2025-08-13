@@ -541,9 +541,7 @@ static void system_flower_petal_movement_logic(
                     rr_vector_set_magnitude(&accel, 25 * (petal->rarity + 1));
                 rr_vector_add(&flower_physical->acceleration, &accel);
             }
-            break;
-        }
-        case rr_petal_id_missile:
+         case rr_petal_id_missile:
         {
             if ((player_info->input & 1) == 0)
                 break;
@@ -564,6 +562,7 @@ static void system_flower_petal_movement_logic(
                 rr_component_physical_set_angle(physical, rr_vector_theta(&delta));
             }
             break;
+        }
         }
         default:
             break;
@@ -739,7 +738,7 @@ system_egg_hatching_logic(struct rr_simulation *simulation,
         m_id = rr_mob_id_trex;
         m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
     }
-        if (petal->id == rr_petal_id_magic_leaf)
+    else if (petal->id == rr_petal_id_magic_leaf)
     {
         m_id = rr_mob_id_whirlpool;
         m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
@@ -951,7 +950,6 @@ static void rr_system_petal_reload_foreach_function(EntityIdx id,
                     rr_simulation_request_entity_deletion(simulation,
                                                           p_petal->entity_hash, __FILE__, __LINE__);
                     continue;
-
                 }
                 if (data->id == rr_petal_id_egg || data->id == rr_petal_id_magic_leaf)
                 {
@@ -1051,12 +1049,16 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
         }
         else if (petal->id == rr_petal_id_meat)
             meat_petal_system(simulation, petal);
-        else if (petal->id == rr_petal_id_missile)
+        if (--petal->effect_delay <= 0)
         {
-            rr_vector_from_polar(&physical->acceleration, 25.0f,
-                                 physical->bearing_angle);
-        }
-        else if (petal->id == rr_petal_id_nest)
+            rr_simulation_request_entity_deletion(simulation, id, __FILE__, __LINE__);
+            if (petal->id == rr_petal_id_seed)
+            {
+                struct rr_component_flower *target_flower =
+                    rr_simulation_get_flower(simulation, petal->bind_target);
+                rr_component_flower_set_dead(target_flower, simulation, 0);
+            }
+            else if (petal->id == rr_petal_id_nest)
             {
                 struct rr_component_relations *flower_relations =
                     rr_simulation_get_relations(simulation, relations->owner);
@@ -1095,6 +1097,7 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
             }
         }
     }
+}
 
 static void system_nest_logic(EntityIdx id, void *_simulation)
 {
