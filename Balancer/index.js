@@ -58,7 +58,7 @@ function loop()
     init_rarity_coefficients();
     canvas.width = canvas.width;
     ctx.setTransform(1,0,0,1,0,200);
-    ctx.font = '10px Ubuntu';
+    ctx.font = '10px Fredoka';
     ctx.lineWidth = 2;
     ctx.fillStyle = '#ffffff';
     ctx.strokeStyle = '#000000';

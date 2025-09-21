@@ -28,7 +28,7 @@ void rr_dom_create_text_element(char const *name, uint32_t text_limit)
             elem.type = "text";
             elem.maxLength = $1;
             elem.style.position = "absolute";
-            elem.style["font-family"] = "Ubuntu";
+            elem.style["font-family"] = "Fredoka";
             elem.style.display = 'none';
             elem.style["border-width"] = "0px";
             elem.style.background = "transparent";

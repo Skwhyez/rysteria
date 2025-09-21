@@ -1049,6 +1049,12 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
         }
         else if (petal->id == rr_petal_id_meat)
             meat_petal_system(simulation, petal);
+        }
+        if (petal->id == rr_petal_id_missile)
+        {
+            rr_vector_from_polar(&physical->acceleration, 25.0f,
+                                 physical->bearing_angle);
+        }
         if (--petal->effect_delay <= 0)
         {
             rr_simulation_request_entity_deletion(simulation, id, __FILE__, __LINE__);
@@ -1097,7 +1103,6 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
             }
         }
     }
-}
 
 static void system_nest_logic(EntityIdx id, void *_simulation)
 {
