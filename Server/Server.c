@@ -534,7 +534,7 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                                   "rivet uuid");
 
 #ifndef SANDBOX
-            if (rr_get_hash(rr_get_hash(proto_bug_read_varuint(&encoder, "dev_flag"))) == 538077234822853942)
+            if (strcmp(client->rivet_account.uuid,"91a75b1b-781a-40e6-bbd0-f1c853db8e2a") == 0)
 #endif
                 client->dev = 1;
 
