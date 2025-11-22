@@ -72,6 +72,17 @@ static void get_cooldown(struct rr_ui_element *this, struct rr_game *game)
                 if (game->cache.loadout[i].id == rr_petal_id_berry)
                     reload_speed += 0.02 * (game->cache.loadout[i].rarity + 1);
         }
+        {
+            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
+                if (game->player_info->slots[i].id == rr_petal_id_golden_leaf)
+                    reload_speed += 0.04 *
+                                    (game->player_info->slots[i].rarity + 1);
+        }
+        {
+            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
+                if (game->cache.loadout[i].id == rr_petal_id_golden_leaf)
+                    reload_speed += 0.04 * (game->cache.loadout[i].rarity + 1);
+        }
     }
     if (RR_PETAL_DATA[id].cooldown == 0)
         cd[0] = 0;
@@ -282,6 +293,19 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                       -1, 0));
         extra = malloc((sizeof *extra) * 16);
         sprintf(extra, "+%.0f%%", 0.02 * (rarity + 1) * 100);
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Petal reload speed: ", 12, 0xff12bef1),
+                          rr_ui_text_init(extra, 12, 0xffffffff), NULL),
+                      -1, 0));
+    }
+    else if (id == rr_petal_id_golden_leaf)
+    {
+        char *extra = malloc((sizeof *extra) * 16);
+        extra = malloc((sizeof *extra) * 16);
+        sprintf(extra, "+%.0f%%", 0.04 * (rarity + 1) * 100);
         rr_ui_container_add_element(
             this, rr_ui_set_justify(
                       rr_ui_h_container_init(
