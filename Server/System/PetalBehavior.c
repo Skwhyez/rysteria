@@ -658,6 +658,10 @@ static void petal_modifiers(struct rr_simulation *simulation,
             to_rotate += (0.02 + 0.012 * slot->rarity);
             player_info->modifiers.reload_speed += 0.02 * (slot->rarity + 1);
         }
+        else if (data->id == rr_petal_id_golden_leaf)
+        {
+            player_info->modifiers.reload_speed += 0.04 * (slot->rarity + 1);
+        }
         else if (data->id == rr_petal_id_feather)
         {
             physical->acceleration_scale +=
