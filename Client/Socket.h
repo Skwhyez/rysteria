@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 struct lws_context;
 struct lws;
 #else
@@ -38,7 +38,7 @@ struct rr_websocket
 {
     uint8_t recieved_first_packet;
     void *user_data;
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
     struct lws_context *socket_context;
     struct lws *socket;
 #endif

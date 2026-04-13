@@ -30,7 +30,7 @@
 #include <Shared/MagicNumber.h>
 #include <Shared/Rivet.h>
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <glfw/GLFW3.h>
 #include <pthread.h>
 #include <sys/time.h>
@@ -61,7 +61,7 @@ static void *rr_create_game_thread(void *arg)
 
 #endif
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <Client/DOM.h>
 
@@ -176,7 +176,7 @@ void rr_main_loop(struct rr_game *this)
 {
     printf("client on version %llu\n", RR_SECRET8 ^ 255);
     srand(time(0));
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             Module.canvas = document.createElement("canvas");
@@ -381,7 +381,7 @@ int main()
     game.deletion_simulation = deletion_simulation;
     rr_game_tick(&game, 1);
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
     // glfwSetErrorCallback([](int error, char const *description)
     //                      { std::cerr << "code " << error << ' ' <<
     //                      description << '\n'; });

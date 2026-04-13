@@ -20,7 +20,7 @@
 
 extern uint8_t g_poor_eqm;
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #else
 // todo: skia
@@ -57,7 +57,7 @@ extern "C"
 
     struct rr_renderer
     {
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
         // todo: skia
 #else
         uint32_t context_id;

@@ -21,7 +21,7 @@
 #include <string.h>
 
 #include <Client/Game.h>
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <libwebsockets.h>
 #else
 #include <emscripten.h>
@@ -35,7 +35,7 @@ static uint8_t *outputs[8192];
 static uint32_t packet_lengths[8192] = {0};
 static uint32_t at = 0;
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 void rr_on_socket_event_emscripten(struct rr_websocket *this,
                                    enum rr_websocket_event_type type,
                                    void *data, uint32_t data_size)
@@ -83,7 +83,7 @@ void rr_websocket_connect_to(struct rr_websocket *this, char const *link)
 {
     puts("<rr_websocket::server_connect>");
     this->recieved_first_packet = 0;
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             let string = UTF8ToString($1);
@@ -141,7 +141,7 @@ void rr_websocket_connect_to(struct rr_websocket *this, char const *link)
 
 void rr_websocket_disconnect(struct rr_websocket *this, struct rr_game *game)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM({
         if (Module.socket)
             Module.socket.close();
@@ -170,7 +170,7 @@ void rr_websocket_send(struct rr_websocket *this, uint32_t length)
     this->serverbound_encryption_key =
         rr_get_hash(rr_get_hash(this->serverbound_encryption_key));
     this->quick_verification = rr_get_hash(this->quick_verification);
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
     lws_write(this->socket, RR_OUTGOING_PACKET, length, LWS_WRITE_BINARY);
 #else
     EM_ASM({ Module.socket.send(HEAPU8.subarray($0, $0 + $1)); },
@@ -189,7 +189,7 @@ void rr_websocket_send_all(struct rr_websocket *this)
         this->serverbound_encryption_key =
             rr_get_hash(rr_get_hash(this->serverbound_encryption_key));
         this->quick_verification = rr_get_hash(this->quick_verification);
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
         lws_write(this->socket, outputs[i], packet_lengths[i],
                   LWS_WRITE_BINARY);
 #else

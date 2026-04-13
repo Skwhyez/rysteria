@@ -22,7 +22,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <libwebsockets.h>
 #endif
 
@@ -576,7 +576,7 @@ void rr_game_init(struct rr_game *this)
                         rr_ui_title_screen_loadout_button_init(23),
                         NULL
                     ),
-                    // rr_ui_text_init("https://github.com/maxnest0x0/rysteria", 15, 0xffffffff),
+                    // rr_ui_text_init("https://github.com/skwhyez/rysteria", 15, 0xffffffff),
                     NULL
                 ),
             0x00000000),
@@ -1764,7 +1764,7 @@ void rr_game_tick(struct rr_game *this, float delta)
     rr_dom_set_cursor(this->cursor);
     rr_game_crafting_tick(this, delta);
     rr_game_autocraft_tick(this, delta);
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
     lws_service(this->socket.socket_context, -1);
 #endif
     if (this->socket_ready)

@@ -16,7 +16,7 @@
 
 #include <Client/Storage.h>
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
@@ -28,7 +28,7 @@ char storage_buf2[8 * 1024] = {0};
 
 uint32_t rr_local_storage_get_string(char *name)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     return EM_ASM_INT(
         {
             let string = UTF8ToString($0);
@@ -46,7 +46,7 @@ uint32_t rr_local_storage_get_string(char *name)
 
 void rr_local_storage_store_string(char *name, char *contents)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             const string = UTF8ToString($0);
@@ -60,7 +60,7 @@ void rr_local_storage_store_string(char *name, char *contents)
 void rr_local_storage_store_bytes(char *label, void const *bytes, uint64_t size)
 {
     int new_size = rr_base_64_encode(storage_buf1, bytes, size);
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             const string = UTF8ToString($0);
@@ -75,7 +75,7 @@ void rr_local_storage_store_bytes(char *label, void const *bytes, uint64_t size)
 
 uint32_t rr_local_storage_get_bytes(char *label, void *bytes)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     int len = EM_ASM_INT(
         {
             const string = UTF8ToString($0);

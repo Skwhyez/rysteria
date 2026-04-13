@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <curl/curl.h>
 #else
 #include <emscripten.h>
@@ -135,7 +135,7 @@ void rr_rivet_players_disconnected(char const *lobby_token,
 void rr_rivet_lobbies_find(void *captures, char const *region)
 {
     puts("<rr_rivet::lobby_find>");
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             try
@@ -182,7 +182,7 @@ void rr_rivet_lobbies_find(void *captures, char const *region)
 void rr_rivet_lobbies_join(void *captures, char const *lobby_id)
 {
     printf("<rr_rivet::lobby_join::%s>\n", lobby_id);
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             fetch("https://matchmaker.api.rivet.gg/v1/lobbies/join", {
@@ -220,7 +220,7 @@ void rr_rivet_lobbies_join(void *captures, char const *lobby_id)
 void rr_rivet_link_account(char *game_user, char *api_password, void *captures)
 {
     puts("<rr_rivet::account_link>");
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     // clang-format off
     EM_ASM(
         {

@@ -91,15 +91,15 @@ enum rr_biome_id
 
 enum rr_rarity_id
 {
-    rr_rarity_id_common,
-    rr_rarity_id_unusual,
-    rr_rarity_id_rare,
-    rr_rarity_id_epic,
-    rr_rarity_id_legendary,
-    rr_rarity_id_mythic,
-    rr_rarity_id_exotic,
-    rr_rarity_id_ultimate,
-    rr_rarity_id_max
+    rr_rarity_id_common,     // 0
+    rr_rarity_id_unusual,    // 1
+    rr_rarity_id_rare,       // 2
+    rr_rarity_id_epic,       // 3
+    rr_rarity_id_legendary,  // 4
+    rr_rarity_id_mythic,     // 5
+    rr_rarity_id_exotic,     // 6
+    rr_rarity_id_ultimate,   // 7
+    rr_rarity_id_max         // 8
 };
 
 enum rr_petal_id

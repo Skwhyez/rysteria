@@ -23,25 +23,27 @@
 
 // clang-format off
 struct rr_petal_base_stat_scale const offensive[rr_rarity_id_max] = {
-    {1.0, 1.0},
-    {1.7, 2.0},
-    {2.9, 4.0},
-    {5.0, 8.0},
-    {8.5,  16},
-    {14.5, 48},
-    {24.6,144},
-    {42.0,432}
+//   hp             dmg
+    {1,            1                }, // rr_rarity_id_common,
+    {1.7,          2                }, // rr_rarity_id_unusual,
+    {2.9,          4                }, // rr_rarity_id_rare,
+    {5,            8                }, // rr_rarity_id_epic,
+    {8.5,          16               }, // rr_rarity_id_legendary,
+    {14.5,         48               }, // rr_rarity_id_mythic,
+    {24.6,         144              }, // rr_rarity_id_exotic,
+    {42,           432              }, // rr_rarity_id_ultimate,
 };
 
 struct rr_petal_base_stat_scale const defensive[rr_rarity_id_max] = {
-    {1.0, 1.0},
-    {2.0, 1.7},
-    {4.0, 2.9},
-    {8.0, 5.0},
-    {16,  8.5},
-    {48, 14.5},
-    {144,24.6},
-    {432,42.0}
+//   hp                dmg
+    {1,                1            }, // rr_rarity_id_common,
+    {2,                1.7          }, // rr_rarity_id_unusual,
+    {4,                2.9          }, // rr_rarity_id_rare,
+    {8,                5            }, // rr_rarity_id_epic,
+    {16,               8.5          }, // rr_rarity_id_legendary,
+    {48,               14.5         }, // rr_rarity_id_mythic,
+    {144,              24.6         }, // rr_rarity_id_exotic,
+    {432,              42           }, // rr_rarity_id_ultimate,
 };
 
 struct rr_petal_data RR_PETAL_DATA[rr_petal_id_max] = {
@@ -89,8 +91,8 @@ char const *RR_PETAL_NAMES[rr_petal_id_max] = {
     "Peas",     "Leaf",      "Egg",       "Magnet", "Uranium",  "Feather", "Azalea",
     "Bone",     "Web",       "Seed",      "Gravel", "Club",     "Crest",   "Droplet",
     "Beak",     "Lightning", "Third Eye", "Nest",   "Fireball", "Meat",    "Bubble",
-    "Meteor",   "Mandible",  "Wax",       "Sand",   "Mint",     "Rice",    "Golden Leaf"
-    "Missile"
+    "Meteor",   "Mandible",  "Wax",       "Sand",   "Mint",     "Rice",    "Golden Leaf",
+    "Missile",
 };
 
 char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
@@ -211,25 +213,27 @@ double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
 double RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 10};
 
 struct rr_petal_rarity_scale RR_PETAL_RARITY_SCALE[rr_rarity_id_max] = {
-    {1,    240, 45 },
-    {1.8,  120, 60 },
-    {3.5,  60,  75 },
-    {6.8,  30,  100},
-    {12.5, 15,  125},
-    {24.5, 7.5, 150},
-    {60,   2.5, 200},
-    {180,  0.5, 250},
+//   heal   seed reload  web size
+    {1,     240,         45,        }, // rr_rarity_id_common,
+    {1.8,   120,         60,        }, // rr_rarity_id_unusual,
+    {3.5,   60,          75,        }, // rr_rarity_id_rare,
+    {6.8,   30,          100,       }, // rr_rarity_id_epic,
+    {12.5,  15,          125,       }, // rr_rarity_id_legendary,
+    {24.5,  7.5,         150,       }, // rr_rarity_id_mythic,
+    {60,    2.5,         200,       }, // rr_rarity_id_exotic,
+    {180,   0.5,         250,       }, // rr_rarity_id_ultimate,
 };
 
 struct rr_mob_rarity_scale RR_MOB_RARITY_SCALING[rr_rarity_id_max] = {
-    {1,      1,    1  },
-    {2.4,    1.7,  1.2},
-    {6,      2.9,  1.5}, 
-    {14.4,   5,    2  },
-    {40,     8.5,  2.8},
-    {192,    14.5, 4  },
-    {2560,   24.6, 5.5},
-    {38400,  42,   7  },
+//  {hp              dmg            size                       }, // HITBOXES/SIZE
+    {1,              1,             1                          }, // rr_rarity_id_common,
+    {2.4,            1.7,           1.2                        }, // rr_rarity_id_unusual,
+    {6,              2.9,           1.5                        }, // rr_rarity_id_rare,
+    {14.4,           5,             2                          }, // rr_rarity_id_epic,
+    {40,             8.5,           2.8                        }, // rr_rarity_id_legendary,
+    {192,            14.5,          4                          }, // rr_rarity_id_mythic,
+    {2560,           24.6,          5.5                        }, // rr_rarity_id_exotic,
+    {38400,          42,            7                          }, // rr_rarity_id_ultimate,
 };
 // clang-format on
 

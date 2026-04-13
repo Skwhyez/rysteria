@@ -19,7 +19,7 @@
 #include <assert.h>
 #include <string.h>
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
 #include <curl/curl.h>
 #else
 #include <emscripten.h>
@@ -48,7 +48,7 @@ size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp)
 
 void rr_api_get_password(char const *token, void *captures)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             fetch(UTF8ToString($0) + "user_get_password/" + UTF8ToString($1))
@@ -67,7 +67,7 @@ void rr_api_get_password(char const *token, void *captures)
 
 void rr_api_get_server_alias(char const *param_1, void *game)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             fetch(UTF8ToString($1) + 'user_get_server_alias/' +
