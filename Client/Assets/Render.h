@@ -40,6 +40,12 @@ void rr_dakotaraptor_wing2_draw(struct rr_renderer *);
 void rr_dakotaraptor_head_draw(struct rr_renderer *);
 void rr_dakotaraptor_tail_draw(struct rr_renderer *);
 
+void rr_pectinodon_body_draw(struct rr_renderer *);
+void rr_pectinodon_wing1_draw(struct rr_renderer *);
+void rr_pectinodon_wing2_draw(struct rr_renderer *);
+void rr_pectinodon_head_draw(struct rr_renderer *);
+void rr_pectinodon_tail_draw(struct rr_renderer *);
+
 void rr_fern_draw(struct rr_renderer *);
 void rr_tree_draw(struct rr_renderer *);
 void rr_meteor_draw(struct rr_renderer *);
@@ -101,6 +107,11 @@ void rr_spider_leg_draw(struct rr_renderer *);
 void rr_house_centipede_body_draw(struct rr_renderer *);
 void rr_house_centipede_head_draw(struct rr_renderer *);
 void rr_house_centipede_leg_draw(struct rr_renderer *);
+
+void rr_lanternfly_wing1_draw(struct rr_renderer *);
+void rr_lanternfly_abdomen_draw(struct rr_renderer *);
+void rr_lanternfly_leg_draw(struct rr_renderer *);
+void rr_lanternfly_head_draw(struct rr_renderer *);
 
 void rr_hc_tile_1_draw(struct rr_renderer *);
 void rr_hc_tile_2_draw(struct rr_renderer *);

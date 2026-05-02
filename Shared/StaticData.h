@@ -143,13 +143,16 @@ enum rr_petal_id
     rr_petal_id_rice,        // 33
     rr_petal_id_golden_leaf, // 34
     rr_petal_id_missile,     // 35
+    rr_petal_id_rake,        // 36
+    rr_petal_id_stick,       // 37
 
     //max
-    rr_petal_id_max,         // 36
+    rr_petal_id_max,         // 38
 };
 
 enum rr_mob_id
 {
+    //hell creek
     rr_mob_id_triceratops,        // 0
     rr_mob_id_trex,               // 1
     rr_mob_id_fern,               // 2
@@ -163,6 +166,7 @@ enum rr_mob_id
     rr_mob_id_quetzalcoatlus,     // 10
     rr_mob_id_edmontosaurus,      // 11
 
+    //garden
     rr_mob_id_ant,                // 12
     rr_mob_id_hornet,             // 13
     rr_mob_id_dragonfly,          // 14
@@ -171,8 +175,10 @@ enum rr_mob_id
     rr_mob_id_spider,             // 17
     rr_mob_id_house_centipede,    // 18
     rr_mob_id_lanternfly,         // 19
+    rr_mob_id_pectinodon,         // 20
 
-    rr_mob_id_max,                // 20
+    //max
+    rr_mob_id_max,                // 21
 };
 
 struct rr_petal_base_stat_scale

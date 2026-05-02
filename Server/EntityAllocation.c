@@ -120,6 +120,25 @@ EntityIdx rr_simulation_alloc_petal(struct rr_simulation *this, EntityIdx arena,
     }
     else if (id == rr_petal_id_fireball)
         rr_component_physical_set_radius(physical, 13);
+    else if (id == rr_petal_id_rake)
+        rr_component_physical_set_radius(physical, 75);
+    else if (id == rr_petal_id_stick)
+    {
+        float burn_damage;
+
+    switch (rarity) {
+        case 0:  burn_damage = 45.0 / 75;    break;
+        case 1:  burn_damage = 90.0 / 75;    break;
+        case 2:  burn_damage = 180.0 / 75;   break;
+        case 3:  burn_damage = 360.0 / 75;   break;
+        case 4:  burn_damage = 720.0 / 75;   break;
+        case 5:  burn_damage = 2160.0 / 75;  break;
+        case 6:  burn_damage = 6480.0 / 75;  break;
+        case 7:  burn_damage = 19440.0 / 75; break;
+        default: burn_damage = 0.0;          break;
+        }
+        health->secondary_damage = burn_damage;
+    }
 
     rr_component_petal_set_id(petal, id);
     rr_component_petal_set_rarity(petal, rarity);

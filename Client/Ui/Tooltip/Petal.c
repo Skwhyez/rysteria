@@ -72,17 +72,6 @@ static void get_cooldown(struct rr_ui_element *this, struct rr_game *game)
                 if (game->cache.loadout[i].id == rr_petal_id_berry)
                     reload_speed += 0.02 * (game->cache.loadout[i].rarity + 1);
         }
-        {
-            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
-                if (game->player_info->slots[i].id == rr_petal_id_golden_leaf)
-                    reload_speed += 0.04 *
-                                    (game->player_info->slots[i].rarity + 1);
-        }
-        {
-            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
-                if (game->cache.loadout[i].id == rr_petal_id_golden_leaf)
-                    reload_speed += 0.04 * (game->cache.loadout[i].rarity + 1);
-        }
     }
     if (RR_PETAL_DATA[id].cooldown == 0)
         cd[0] = 0;
@@ -254,7 +243,33 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                           text, NULL),
                       -1, 0));
     }
-else if (id == rr_petal_id_berry)
+    else if (id == rr_petal_id_leaf)
+    {
+        char *extra = malloc((sizeof *extra) * 8);
+        sprintf(extra, "%.1f/s",
+                25 * 0.075 * RR_PETAL_RARITY_SCALE[rarity].heal);
+        rr_ui_container_add_element(
+            this,
+            rr_ui_set_justify(rr_ui_h_container_init(
+                                  rr_ui_container_init(), 0, 0,
+                                  rr_ui_text_init("Heal: ", 12, 0xffffff44),
+                                  rr_ui_text_init(extra, 12, 0xffffffff), NULL),
+                              -1, 0));
+    }
+    else if (id == rr_petal_id_egg)
+    {
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Spawns: ", 12, 0xffe07422),
+                          rr_ui_text_init(
+                              RR_RARITY_NAMES[rarity >= 1 ? rarity - 1 : 0], 12,
+                              RR_RARITY_COLORS[rarity >= 1 ? rarity - 1 : 0]),
+                          rr_ui_text_init(" T-Rex", 12, 0xffffffff), NULL),
+                      -1, 0));
+    }
+    else if (id == rr_petal_id_berry)
     {
         char *extra = malloc((sizeof *extra) * 16);
         sprintf(extra, "%.1f rad/s", (0.02 + 0.012 * rarity) * 25);
@@ -267,19 +282,6 @@ else if (id == rr_petal_id_berry)
                       -1, 0));
         extra = malloc((sizeof *extra) * 16);
         sprintf(extra, "+%.0f%%", 0.02 * (rarity + 1) * 100);
-        rr_ui_container_add_element(
-            this, rr_ui_set_justify(
-                      rr_ui_h_container_init(
-                          rr_ui_container_init(), 0, 0,
-                          rr_ui_text_init("Petal reload speed: ", 12, 0xff12bef1),
-                          rr_ui_text_init(extra, 12, 0xffffffff), NULL),
-                      -1, 0));
-    }
-    else if (id == rr_petal_id_golden_leaf)
-    {
-        char *extra = malloc((sizeof *extra) * 16);
-        extra = malloc((sizeof *extra) * 16);
-        sprintf(extra, "+%.0f%%", 0.04 * (rarity + 1) * 100);
         rr_ui_container_add_element(
             this, rr_ui_set_justify(
                       rr_ui_h_container_init(
@@ -569,6 +571,37 @@ else if (id == rr_petal_id_berry)
                                   rr_ui_text_init("Heal: ", 12, 0xffffff44),
                                   rr_ui_text_init(extra, 12, 0xffffffff), NULL),
                               -1, 0));
+    }
+    else if (id == rr_petal_id_stick)
+    {
+        char *extra_poison = malloc((sizeof *extra_poison) * 8);
+        float burn_damage;
+
+    switch (rarity) {
+        case 0:  burn_damage = 45.0 / 3;    break;
+        case 1:  burn_damage = 90.0 / 3;    break;
+        case 2:  burn_damage = 180.0 / 3;   break;
+        case 3:  burn_damage = 360.0 / 3;   break;
+        case 4:  burn_damage = 720.0 / 3;   break;
+        case 5:  burn_damage = 2160.0 / 3;  break;
+        case 6:  burn_damage = 6480.0 / 3;  break;
+        case 7:  burn_damage = 19440.0 / 3; break;
+        default: burn_damage = 0.0;         break;
+      }
+
+    if (burn_damage >= 1000) {
+        sprintf(extra_poison, "%.1fk/s", burn_damage / 1000.0);
+    } else {
+        sprintf(extra_poison, "%.1f/s", burn_damage);
+    }
+
+            rr_ui_container_add_element(
+                this,
+                rr_ui_set_justify(rr_ui_h_container_init(
+                                      rr_ui_container_init(), 0, 0,
+                                      rr_ui_text_init("Burn: ", 12, 0xffd97232),
+                                      rr_ui_text_init(extra_poison, 12, 0xffffffff), NULL),
+                                  -1, 0));
     }
     return this;
 }

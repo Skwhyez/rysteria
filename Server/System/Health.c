@@ -326,6 +326,13 @@ static uint8_t damage_effect(struct rr_simulation *simulation, EntityIdx target,
                     50 * RR_PETAL_DATA[petal->id].scale[petal->rarity].damage,
                     rr_animation_color_type_damage);
         }
+        else if (petal->id == rr_petal_id_stick)
+        {
+            struct rr_component_health *health =
+                rr_simulation_get_health(simulation, target);
+            health->poison_ticks = 75;
+            health->poison = rr_simulation_get_health(simulation, attacker)->secondary_damage;
+        }
     }
     return 1;
 }

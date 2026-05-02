@@ -34,6 +34,7 @@ set(SRCS
     Assets/Mob/Honeybee.c
     Assets/Mob/Hornet.c
     Assets/Mob/HouseCentipede.c
+    Assets/Mob/Lanternfly.c
     Assets/Mob/Ornithomimus.c
     Assets/Mob/Pachycephalosaurus.c
     Assets/Mob/Pteranodon.c
@@ -44,6 +45,7 @@ set(SRCS
     Assets/Mob/Fern.c
     Assets/Mob/Meteor.c
     Assets/Mob/Tree.c
+    Assets/Mob/Pectinodon.c
     Assets/Tile/Garden.c
     Assets/Tile/HellCreek.c
     Assets/Tile/Ocean.c

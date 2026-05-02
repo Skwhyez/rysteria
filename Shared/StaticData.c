@@ -84,6 +84,8 @@ struct rr_petal_data RR_PETAL_DATA[rr_petal_id_max] = {
     {rr_petal_id_rice,        rr_rarity_id_unusual,   offensive,  3.0f,   1.0f,   0.0f,   1,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_golden_leaf, rr_rarity_id_mythic,    offensive,  3.0f,   3.0f,   8.0f,  19,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_missile,     rr_rarity_id_rare,      offensive,  8.0f,   1.0f,   0.0f,  10,  5, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_rake,        rr_rarity_id_mythic,    offensive, 10.0f,  30.0f,   0.0f,  75,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_stick,       rr_rarity_id_rare,      offensive,  1.0f,  8.0f,    0.0f,  50,  0, {1,1,1,1,1,3,5,5}},
 };    
 
 char const *RR_PETAL_NAMES[rr_petal_id_max] = {
@@ -92,7 +94,7 @@ char const *RR_PETAL_NAMES[rr_petal_id_max] = {
     "Bone",     "Web",       "Seed",      "Gravel", "Club",     "Crest",   "Droplet",
     "Beak",     "Lightning", "Third Eye", "Nest",   "Fireball", "Meat",    "Bubble",
     "Meteor",   "Mandible",  "Wax",       "Sand",   "Mint",     "Rice",    "Golden Leaf",
-    "Missile",
+    "Missile",  "Rake",      "Stick",
 };
 
 char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
@@ -131,7 +133,9 @@ char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
     "Remember to feed your pets", //mint
     "The opposite of stinger", //rice
     "A very special leaf that allows you to use your petals even more", //golden leaf
-    "You can't dodge this one" //missile
+    "You can't dodge this one", //missile
+    "Good for removing dead flowers" //rake
+    ""
 };
 
 struct rr_mob_data RR_MOB_DATA[rr_mob_id_max] = {
@@ -156,13 +160,15 @@ struct rr_mob_data RR_MOB_DATA[rr_mob_id_max] = {
     {rr_mob_id_spider,             rr_rarity_id_common, rr_rarity_id_ultimate,  20, 25, 25.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_web,             0.1},{rr_petal_id_third_eye, 0.01}}},
     {rr_mob_id_house_centipede,    rr_rarity_id_common, rr_rarity_id_ultimate,  25, 10, 23.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_peas,            0.1},{rr_petal_id_sand,      0.05}}},
     {rr_mob_id_lanternfly,         rr_rarity_id_common, rr_rarity_id_ultimate,  20, 10, 25.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_mint,            0.1},{rr_petal_id_sand,      0.05}}},
+    {rr_mob_id_pectinodon,         rr_rarity_id_common, rr_rarity_id_ultimate,  35, 10, 25.0f, rr_rarity_id_common, rr_rarity_id_common, rr_rarity_id_max,     {{rr_petal_id_stick,          0.05},{rr_petal_id_feather,    0.1},{rr_petal_id_wax,       0.05}}},
 };
 
 char const *RR_MOB_NAMES[rr_mob_id_max] = {
 "Triceratops","T-Rex","Fern","Tree","Pteranodon","Dakotaraptor",
 "Pachycephalosaurus","Ornithomimus","Ankylosaurus","Meteor",
 "Quetzalcoatlus","Edmontosaurus","Ant","Hornet","Dragonfly",
-"Honeybee","Beehive","Spider","House Centipede","Lanternfly"
+"Honeybee","Beehive","Spider","House Centipede","Lanternfly",
+"Pectinodon"
 };
 
 uint32_t RR_MOB_DIFFICULTY_COEFFICIENTS[rr_mob_id_max] = {
@@ -186,6 +192,7 @@ uint32_t RR_MOB_DIFFICULTY_COEFFICIENTS[rr_mob_id_max] = {
     0,   //spider
     0,   //house_centipede
     0,   //lanternfly
+    10,   // pectinodon
 };
 
 double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
@@ -209,6 +216,7 @@ double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
     0,    //spider
     0,    //house_centipede
     0,    //lanternfly
+    0,   // pectinodon
 };
 double RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 10};
 

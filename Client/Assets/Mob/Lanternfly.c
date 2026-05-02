@@ -176,3 +176,28 @@ void rr_lanternfly_leg_draw(struct rr_renderer *renderer)
                                 27.97);
     rr_renderer_fill(renderer);
 }
+
+void rr_lanternfly_head_draw(struct rr_renderer *renderer)
+{
+    rr_renderer_scale(renderer, 5.0);
+    rr_renderer_translate(renderer, -320.01373, -179.99961);
+    rr_renderer_set_stroke(renderer, 0xff212526);
+    rr_renderer_set_fill(renderer, 0xff33393a);
+    rr_renderer_set_line_width(renderer, 7.0f);
+    rr_renderer_begin_path(renderer);
+    rr_renderer_move_to(renderer, 328.25773, 177.27849);
+    rr_renderer_bezier_curve_to(renderer, 328.28936, 177.30855, 329.83117, 180.26879, 329.82293999999996, 180.64865);
+    rr_renderer_bezier_curve_to(renderer, 329.80645999999996, 181.40933, 330.43638999999996, 180.99015, 328.77103999999997, 183.12242);
+    rr_renderer_bezier_curve_to(renderer, 327.10569, 185.25469, 324.97143, 187.33792, 323.94710999999995, 188.09502);
+    rr_renderer_bezier_curve_to(renderer, 322.92278999999996, 188.85213000000002, 322.19933999999995, 189.50647, 319.83198999999996, 189.5523);
+    rr_renderer_bezier_curve_to(renderer, 318.31037999999995, 189.58176, 316.19823999999994, 188.2446, 316.19823999999994, 188.2446);
+    rr_renderer_bezier_curve_to(renderer, 316.19823999999994, 188.2446, 311.62281999999993, 184.54136, 311.01989999999995, 183.52354);
+    rr_renderer_bezier_curve_to(renderer, 310.68434999999994, 182.95709, 309.91959999999995, 182.29423, 310.10107999999997, 180.78878);
+    rr_renderer_bezier_curve_to(renderer, 310.28254999999996, 179.28333, 311.44816999999995, 178.06169, 311.75888, 177.39334);
+    rr_renderer_bezier_curve_to(renderer, 312.08052, 176.70147, 313.77061999999995, 174.50397999999998, 314.92103, 173.20961);
+    rr_renderer_bezier_curve_to(renderer, 316.07144, 171.91524, 318.0243, 170.44173, 320.21941999999996, 170.44725);
+    rr_renderer_bezier_curve_to(renderer, 322.41452999999996, 170.45278, 323.18501, 171.56131, 324.86062999999996, 172.92597);
+    rr_renderer_bezier_curve_to(renderer, 326.53624999999994, 174.29063, 328.2261, 177.24843, 328.25773, 177.27849);
+    rr_renderer_stroke(renderer);
+    rr_renderer_fill(renderer);
+}
