@@ -432,11 +432,19 @@ void rr_renderer_clip2(struct rr_renderer *this)
         rr_renderer_execute_instructions();
 }
 
+#define poor_eqm                                                               \
+    if (g_poor_eqm)                                                            \
+    {                                                                          \
+        if (c[0] == 0 || c[strlen(c) - 1] != ' ')                              \
+            c = "poor eqm";                                                    \
+        else                                                                   \
+            c = "poor eqm ";                                                   \
+    }
+
 void rr_renderer_fill_text(struct rr_renderer *this, char const *c, float x,
                            float y)
 {
-    if (g_poor_eqm)
-        c = "poor eqm";
+    poor_eqm
     update_if_transformed(this);
     instruction_tape[instruction_size].type = 27;
     instruction_tape[instruction_size].context_id = this->context_id;
@@ -452,8 +460,7 @@ void rr_renderer_fill_text(struct rr_renderer *this, char const *c, float x,
 void rr_renderer_stroke_text(struct rr_renderer *this, char const *c, float x,
                              float y)
 {
-    if (g_poor_eqm)
-        c = "poor eqm";
+    poor_eqm
     update_if_transformed(this);
     instruction_tape[instruction_size].type = 28;
     instruction_tape[instruction_size].context_id = this->context_id;
@@ -467,20 +474,9 @@ void rr_renderer_stroke_text(struct rr_renderer *this, char const *c, float x,
         rr_renderer_execute_instructions();
 }
 
-void rr_renderer_set_global_composite_operation(struct rr_renderer *this,
-                                                uint8_t o)
-{
-    instruction_tape[instruction_size].type = 30;
-    instruction_tape[instruction_size].context_id = this->context_id;
-    instruction_tape[instruction_size].args[0] = o;
-    if (++instruction_size == INSTRUCTION_QUEUE_MAX_SIZE)
-        rr_renderer_execute_instructions();
-}
-
 float rr_renderer_get_text_size(char const *c)
 {
-    if (g_poor_eqm)
-        c = "poor eqm";
+    poor_eqm
     // clang-format off
     return EM_ASM_DOUBLE(
         {
@@ -490,6 +486,18 @@ float rr_renderer_get_text_size(char const *c)
         },
         c);
     // clang-format on
+}
+
+#undef poor_eqm
+
+void rr_renderer_set_global_composite_operation(struct rr_renderer *this,
+                                                uint8_t o)
+{
+    instruction_tape[instruction_size].type = 30;
+    instruction_tape[instruction_size].context_id = this->context_id;
+    instruction_tape[instruction_size].args[0] = o;
+    if (++instruction_size == INSTRUCTION_QUEUE_MAX_SIZE)
+        rr_renderer_execute_instructions();
 }
 
 void rr_renderer_execute_instructions()

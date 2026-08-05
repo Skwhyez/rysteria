@@ -953,6 +953,9 @@ void rr_game_websocket_on_event_function(enum rr_websocket_event_type type,
                                       this->squad.squad_members[i].nickname, 16,
                                       "nickname");
                 proto_bug_read_string(&encoder,
+                                      this->squad.squad_members[i].role, 16,
+                                      "role");
+                proto_bug_read_string(&encoder,
                                       this->squad.squad_members[i].uuid, 37,
                                       "uuid");
                 proto_bug_read_string(&encoder,
@@ -1088,6 +1091,9 @@ void rr_game_websocket_on_event_function(enum rr_websocket_event_type type,
                     proto_bug_read_string(&encoder,
                                           squad->squad_members[i].nickname, 16,
                                           "nickname");
+                    proto_bug_read_string(&encoder,
+                                          squad->squad_members[i].role, 16,
+                                          "role");
                     proto_bug_read_string(&encoder,
                                           squad->squad_members[i].uuid, 37,
                                           "uuid");

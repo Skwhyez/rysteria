@@ -51,6 +51,9 @@ void rr_squad_add_client(struct rr_squad *this, struct rr_server_client *client)
         this->members[i].is_dev = client->dev;
         this->members[i].level = level_from_xp(client->experience);
         this->members[i].kick_vote_pos = -1;
+        strcpy(this->members[i].nickname, "Anonymous");
+        if (strcmp(client->rivet_account.uuid, "fca3a5bc-9d1c-42a7-9114-cbaf7fbc9670") == 0)
+            strcpy(this->members[i].role, "Supporter");
         return;
     }
 }

@@ -33,7 +33,6 @@ struct rr_renderer flower_icon;
 
 static void rr_renderer_flower_icon_draw(struct rr_renderer_filter filter)
 {
-    rr_renderer_set_dimensions(&flower_icon, 0, 0);
     rr_renderer_set_dimensions(&flower_icon, 54, 54);
     rr_renderer_set_transform(&flower_icon, 1, 0, 0, 0, 1, 0);
     rr_renderer_translate(&flower_icon, 27, 27);

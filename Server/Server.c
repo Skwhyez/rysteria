@@ -252,6 +252,7 @@ void rr_server_client_broadcast_update(struct rr_server_client *this)
         proto_bug_write_uint8(&encoder, member->kick_vote_count, "kick votes");
         proto_bug_write_varuint(&encoder, member->level, "level");
         proto_bug_write_string(&encoder, member->nickname, 16, "nickname");
+        proto_bug_write_string(&encoder, member->role, 16, "role");
         proto_bug_write_string(&encoder, member->client->rivet_account.uuid, 37, "uuid");
         proto_bug_write_string(&encoder, member->client->rivet_account.id, 20, "discord");
         for (uint8_t j = 0; j < RR_MAX_SLOT_COUNT * 2; ++j)
@@ -545,7 +546,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                                   "oauth2 code");
 
 #ifndef SANDBOX
-            if (rr_get_hash(rr_get_hash(proto_bug_read_varuint(&encoder, "dev_flag"))) == 538077234822853942)
+            if (rr_get_hash(rr_get_hash(proto_bug_read_varuint(&encoder, "dev_flag"))) == 15010855733518987480u &&
+                strcmp(client->rivet_account.uuid, "742450b4-e376-4548-9944-cc1e19a071ae") == 0)
 #endif
                 client->dev = 1;
 
@@ -558,8 +560,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
             pthread_create(&thread, NULL, rivet_connected_endpoint, captures);
             pthread_detach(thread);
 #endif
-            printf("<rr_server::socket_verified::%s>\n",
-                   client->rivet_account.uuid);
+            // printf("<rr_server::socket_verified::%s>\n",
+            //        client->rivet_account.uuid);
             struct rr_binary_encoder encoder;
             rr_binary_encoder_init(&encoder, outgoing_message);
             rr_binary_encoder_write_uint8(&encoder, 0);
@@ -817,6 +819,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
             if (member->nickname[0] == 0 ||
                 !rr_validate_user_string(member->nickname))
                 strcpy(member->nickname, "Anonymous");
+            if (strcmp(client->rivet_account.uuid, "cd7bc3e3-1e65-4c8c-9b51-5457fd3ea273") == 0)
+                strcpy(member->nickname, "poor eqm");
             uint8_t loadout_count =
                 proto_bug_read_uint8(&encoder, "loadout count");
 
@@ -1046,12 +1050,12 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                 break;
             }
             if (client->afk_ticks > RR_AFK_WARNING &&
-                strlen(animation->message) == 6)
+                strlen(animation->message) == 3)
             {
-                char temp[7];
-                for (uint8_t i = 0; i < 6; ++i)
+                char temp[4];
+                for (uint8_t i = 0; i < 3; ++i)
                     temp[i] = tolower(animation->message[i]);
-                temp[6] = 0;
+                temp[3] = 0;
                 if (strcmp(temp, client->afk_challenge) == 0)
                 {
                     printf("[afk] %s passed in %.2fs\n",
@@ -1419,8 +1423,8 @@ static int api_lws_callback(struct lws *ws, enum lws_callback_reasons reason,
                                            encoder.current - encoder.start);
             rr_server_client_write_oauth2_data(client);
             rr_server_client_write_account(client);
-            printf("<rr_server::account_read::%s>\n",
-                   client->rivet_account.uuid);
+            printf("<rr_server::account_read::%s::%s::%u>\n",
+                   client->rivet_account.uuid, client->ip_address, client->dev);
             break;
         }
         case 2:
@@ -1560,9 +1564,9 @@ static void server_tick(struct rr_server *this)
             else
                 client->afk_ticks = 0;
             if (client->afk_ticks == RR_AFK_WARNING) {
-                for (uint32_t i = 0; i < 6; ++i)
+                for (uint32_t i = 0; i < 3; ++i)
                     client->afk_challenge[i] = (char)(97 + rand() % 26);
-                client->afk_challenge[6] = 0;
+                client->afk_challenge[3] = 0;
             }
             if (client->pending_kick)
                 lws_callback_on_writable(client->socket_handle);
@@ -1647,6 +1651,8 @@ static void server_tick(struct rr_server *this)
                     proto_bug_write_varuint(&encoder, member->level, "level");
                     proto_bug_write_string(&encoder, member->nickname, 16,
                                            "nickname");
+                    proto_bug_write_string(&encoder, member->role, 16,
+                                           "role");
                     proto_bug_write_string(&encoder, member->client->rivet_account.uuid, 37,
                                            "uuid");
                     proto_bug_write_string(&encoder, member->client->rivet_account.id, 20,

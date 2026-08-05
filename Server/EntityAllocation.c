@@ -59,7 +59,7 @@ EntityIdx rr_simulation_alloc_player(struct rr_simulation *this,
     physical->mass = 10;
     physical->arena = arena_id;
     physical->friction = 0.75;
-    if (player_info->client->dev)
+    if (player_info->client->dev || player_info->squad_member->role[0])
         rr_component_physical_set_angle(physical, M_PI);
     // easter egg
     if (rr_frand() < 0.001)
