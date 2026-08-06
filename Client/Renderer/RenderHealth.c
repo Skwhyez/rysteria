@@ -21,6 +21,7 @@
 #include <Client/Renderer/Renderer.h>
 #include <Client/Simulation.h>
 #include <Shared/StaticData.h>
+#include <string.h>
 
 void rr_component_health_render(EntityIdx entity, struct rr_game *game,
                                 struct rr_simulation *simulation)
@@ -34,15 +35,6 @@ void rr_component_health_render(EntityIdx entity, struct rr_game *game,
         return;
     rr_renderer_set_global_alpha(renderer, 1 - physical->deletion_animation);
     rr_renderer_scale(renderer, 1 + physical->deletion_animation * 0.5);
-    /*if (rr_simulation_has_flower(simulation, entity))
-    {
-        struct rr_component_relations *relations =
-            rr_simulation_get_relations(simulation, entity);
-
-        if ((EntityIdx)relations->owner == game->player_info->parent_id)
-            if (health->lerp_health / health->max_health > 0.99)
-                return;
-    }*/
 
     float length = 40;
 
@@ -50,6 +42,83 @@ void rr_component_health_render(EntityIdx entity, struct rr_game *game,
     {
         struct rr_component_mob *mob =
             rr_simulation_get_mob(simulation, entity);
+
+        /*
+         * Determine the index of the "Ancient" rarity at runtime. This makes the
+         * logic resilient to adding new rarities after Ancient: any rarity whose
+         * index is >= ancient_index will use the big top-centre health bar.
+         */
+        int ancient_index = rr_rarity_id_max - 1;
+        for (uint8_t ri = 0; ri < rr_rarity_id_max; ++ri)
+        {
+            if (RR_RARITY_NAMES[ri] && strcmp(RR_RARITY_NAMES[ri], "Ancient") == 0)
+            {
+                ancient_index = ri;
+                break;
+            }
+        }
+
+        if (mob->rarity >= (uint8_t)ancient_index)
+        {
+            /* Render big top-centre boss-style health bar and skip normal bar */
+            struct rr_renderer_context_state state;
+            rr_renderer_context_state_init(renderer, &state);
+
+            /* place at top centre of the screen, 40px down */
+            rr_renderer_set_transform(renderer, 1, 0, renderer->width / 2, 0, 1, 40);
+
+            float bar_w = 400.0f;
+            float bar_h = 32.0f;
+            float radius = bar_h * 0.5f;
+
+            rr_renderer_set_line_cap(renderer, 1);
+            rr_renderer_set_line_width(renderer, 4.0f);
+            rr_renderer_set_stroke(renderer, 0xff222222);
+            rr_renderer_begin_path(renderer);
+            rr_renderer_round_rect(renderer, -bar_w / 2, -bar_h / 2, bar_w, bar_h, radius);
+            rr_renderer_stroke(renderer);
+
+            /* background fill */
+            rr_renderer_set_fill(renderer, 0xff2b2b2b);
+            rr_renderer_begin_path(renderer);
+            rr_renderer_round_rect(renderer, -bar_w / 2 + 2, -bar_h / 2 + 2, bar_w - 4, bar_h - 4, radius - 2);
+            rr_renderer_fill(renderer);
+
+            /* health fill */
+            float ratio = 0;
+            if (health->max_health > 0)
+                ratio = health->lerp_health / health->max_health;
+            ratio = rr_fclamp(ratio, 0, 1);
+
+            rr_renderer_set_fill(renderer, 0xff75dd34);
+            rr_renderer_begin_path(renderer);
+            float fill_w = (bar_w - 4.0f) * ratio;
+            if (fill_w > 0.5f)
+            {
+                rr_renderer_round_rect(renderer, -bar_w / 2 + 2, -bar_h / 2 + 2, fill_w, bar_h - 4, radius - 2);
+                rr_renderer_fill(renderer);
+            }
+
+            /* draw rarity and mob name above the bar */
+            rr_renderer_set_text_size(renderer, 12);
+            rr_renderer_set_fill(renderer, 0xffffffff);
+            rr_renderer_set_stroke(renderer, 0xff000000);
+            rr_renderer_set_text_align(renderer, 1);
+            rr_renderer_set_text_baseline(renderer, 1);
+
+            rr_renderer_stroke_text(renderer, RR_RARITY_NAMES[mob->rarity], 0, -bar_h - 10);
+            rr_renderer_fill_text(renderer, RR_RARITY_NAMES[mob->rarity], 0, -bar_h - 10);
+
+            rr_renderer_set_text_size(renderer, 20);
+            rr_renderer_stroke_text(renderer, RR_MOB_NAMES[mob->id], 0, -bar_h - 30);
+            rr_renderer_fill_text(renderer, RR_MOB_NAMES[mob->id], 0, -bar_h - 30);
+
+            rr_renderer_context_state_free(renderer, &state);
+
+            /* skip the normal per-entity bar */
+            return;
+        }
+
         if (!rr_simulation_has_centipede(simulation, entity) ||
             rr_simulation_get_centipede(simulation, entity)->is_head)
         {
