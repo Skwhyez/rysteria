@@ -50,6 +50,7 @@ void rr_fern_draw(struct rr_renderer *);
 void rr_tree_draw(struct rr_renderer *);
 void rr_meteor_draw(struct rr_renderer *);
 void rr_beehive_draw(struct rr_renderer *);
+void rr_square_draw(struct rr_renderer *);
 
 void rr_pachycephalosaurus_head_draw(struct rr_renderer *);
 void rr_pachycephalosaurus_body_draw(struct rr_renderer *);
@@ -112,6 +113,25 @@ void rr_lanternfly_wing1_draw(struct rr_renderer *);
 void rr_lanternfly_abdomen_draw(struct rr_renderer *);
 void rr_lanternfly_leg_draw(struct rr_renderer *);
 void rr_lanternfly_head_draw(struct rr_renderer *);
+
+void rr_sandstorm_outer_draw(struct rr_renderer *);
+void rr_sandstorm_middle_draw(struct rr_renderer *);
+void rr_sandstorm_inner_draw(struct rr_renderer *);
+
+void rr_kelp_draw(struct rr_renderer *);
+
+void rr_king_mackarel_body_draw(struct rr_renderer *);
+void rr_king_mackarel_fin1_draw(struct rr_renderer *);
+void rr_king_mackarel_fin2_draw(struct rr_renderer *);
+void rr_king_mackarel_head_draw(struct rr_renderer *);
+void rr_king_mackarel_tail_draw(struct rr_renderer *);
+
+void rr_seagull_wing1_draw(struct rr_renderer *);
+void rr_seagull_wing2_draw(struct rr_renderer *);
+void rr_seagull_body_draw(struct rr_renderer *);
+
+void rr_sea_snail_body_draw(struct rr_renderer *);
+void rr_sea_snail_head_draw(struct rr_renderer *);
 
 void rr_hc_tile_1_draw(struct rr_renderer *);
 void rr_hc_tile_2_draw(struct rr_renderer *);

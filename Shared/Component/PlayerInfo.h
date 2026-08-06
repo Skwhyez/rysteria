@@ -86,6 +86,7 @@ struct rr_component_player_info
     EntityIdx parent_id;
     EntityHash flower_id; // will be RR_NULL_ENTITY if nonexistant
     EntityIdx arena;
+    RR_SERVER_ONLY(EntityHash moon_nest;)
     RR_SERVER_ONLY(uint8_t rotation_count;)
     RR_SERVER_ONLY(uint8_t input;)
     uint8_t squad_pos;

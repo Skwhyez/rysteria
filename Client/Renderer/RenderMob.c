@@ -32,16 +32,21 @@ void rr_component_mob_render(EntityIdx entity, struct rr_game *game,
     struct rr_component_physical *physical =
         rr_simulation_get_physical(simulation, entity);
     struct rr_component_mob *mob = rr_simulation_get_mob(simulation, entity);
-    uint8_t is_friendly =
-        mob->player_spawned &&
-        game->player_info != NULL &&
-        game->player_info->flower_id != RR_NULL_ENTITY &&
-        is_same_team(
+    uint8_t is_friendly = 0;
+    if (game->player_info != NULL &&
+        game->player_info->flower_id != RR_NULL_ENTITY)
+    {
+        struct rr_component_relations *mob_relations =
+            rr_simulation_get_relations(simulation, entity);
+        struct rr_component_relations *player_relations =
             rr_simulation_get_relations(simulation,
-                                        game->player_info->flower_id)->team,
-            rr_simulation_get_relations(simulation, entity)->team);
-    if ((mob->id == rr_mob_id_trex || mob->id == rr_mob_id_meteor) &&
-        is_friendly)
+                                        game->player_info->flower_id);
+        is_friendly = is_same_team(player_relations->team,
+                                   mob_relations->team) &&
+                      (mob->player_spawned ||
+                       mob_relations->owner == game->player_info->flower_id);
+    }
+    if (is_friendly)
         rr_renderer_add_color_filter(renderer, 0xffffff63, 0.3);
     uint8_t has_arena = rr_simulation_has_arena(simulation, entity);
     struct rr_component_health *health;

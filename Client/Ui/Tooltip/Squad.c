@@ -168,3 +168,14 @@ rr_ui_squad_player_tooltip_init(struct rr_squad_member *member)
     rr_ui_link_toggle(this, rr_ui_never_show);
     return this;
 }
+
+struct rr_ui_element *rr_ui_create_squad_biome_button_init(char *text,
+                                                           uint32_t fill,
+                                                           uint8_t biome)
+{
+    struct rr_ui_element *this =
+        rr_ui_labeled_button_init(text, 36, 0);
+    rr_ui_set_background(this, fill);
+    ((struct rr_ui_labeled_button_metadata *)this->data)->biome = biome;
+    return this;
+}

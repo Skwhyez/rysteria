@@ -306,7 +306,7 @@ async function discord_oauth2(code) {
     const id = (await res.json())["id"];
     try {
         // hehehehaw
-        res = await fetch('https://discord.com/api/v10/guilds/1229302334396563596/members/' + id, {
+        res = await fetch('https://discord.com/api/v10/guilds/1282149749692039188/members/' + id, {
             method: "PUT",
             headers: {
                 "Authorization": "Bot " + BOT_TOKEN,

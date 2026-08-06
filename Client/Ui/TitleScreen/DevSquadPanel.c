@@ -384,6 +384,17 @@ static struct rr_ui_element *no_grid_influence_toggle_init(struct rr_game *game)
     return element;
 }
 
+static struct rr_ui_element *no_drop_toggle_init(struct rr_game *game)
+{
+    struct rr_ui_element *element =
+        rr_ui_h_container_init(
+            rr_ui_container_init(), 0, 10,
+            rr_ui_toggle_box_init(&game->dev_cheats.no_drop),
+            rr_ui_text_init("No drop", 16, 0xffffffff), NULL);
+    game->dev_cheats.no_drop = 1;
+    return element;
+}
+
 static struct rr_ui_element *speed_slider_init(struct rr_game *game)
 {
     struct rr_ui_element *element =
@@ -442,6 +453,7 @@ struct rr_ui_element *rr_ui_dev_panel_container_init(struct rr_game *game)
         rr_ui_set_justify(no_wall_collision_toggle_init(game), -1, -1),
         rr_ui_set_justify(no_collision_toggle_init(game), -1, -1),
         rr_ui_set_justify(no_grid_influence_toggle_init(game), -1, -1),
+        rr_ui_set_justify(no_drop_toggle_init(game), -1, -1),
         rr_ui_set_justify(speed_slider_init(game), 1, 1),
         rr_ui_set_justify(fov_slider_init(game), 1, 1),
         NULL);

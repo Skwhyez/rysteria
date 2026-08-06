@@ -1,60 +1,65 @@
+// Copyright (C) 2024 Paul Johnson
+// Copyright (C) 2024-2025 Maxim Nesterov
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #include <Server/Waves.h>
 
 #include <math.h>
 #include <stdlib.h>
 
+#include <Server/Simulation.h>
 #include <Shared/StaticData.h>
 #include <Shared/Utilities.h>
 
-uint32_t get_points_from_wave(uint32_t wave, uint32_t player_count)
+uint32_t get_spawn_rarity(float difficulty)
 {
-    return 30 + (wave - 1) * (6 + 8 * player_count);
-}
-
-uint8_t get_rarity_from_wave(uint32_t wave)
-{
-    float rarity_seed = rr_frand();
-    uint8_t rarity_cap = rr_rarity_id_rare + ((wave - 1) / 5);
-    if (rarity_cap > rr_rarity_id_ultra)
-        rarity_cap = rr_rarity_id_max;
-    uint8_t rarity = 0;
+    if (difficulty < 1)
+        difficulty = 1;
+    double rarity_seed = rr_frand();
+    uint32_t rarity_cap = rr_rarity_id_common + (difficulty + 7) / 8;
+    if (rarity_cap > rr_rarity_id_ultimate)
+        rarity_cap = rr_rarity_id_ultimate;
+    uint32_t rarity = rarity_cap >= 2 ? rarity_cap - 2 : 0;
     for (; rarity < rarity_cap; ++rarity)
-        if (pow(1 - (1 - RR_MOB_WAVE_RARITY_COEFFICIENTS[rarity + 1]) * 0.5, pow(1.5, wave)) >
-            rarity_seed)
+        if (pow(1 - (1 - RR_MOB_WAVE_RARITY_COEFFICIENTS[rarity + 1]) * 0.3,
+                pow(1.5, difficulty)) >= rarity_seed)
             break;
     return rarity;
 }
 
-uint8_t get_id_from_wave(uint32_t wave, uint8_t special_wave_id)
+uint8_t get_spawn_id(uint8_t biome, struct rr_maze_grid *zone)
 {
+    const double *table;
+    if (biome == 0) {
+        table = RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS;
+    } else if (biome == 1) {
+        table = RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS;
+    } else {
+        table = RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS;
+    }
+
     double seed = rr_frand();
-    if (special_wave_id == 0)
-    {
-        for (uint8_t id = 0; id < rr_mob_id_max - 1; ++id)
-            if (seed < RR_MOB_ID_RARITY_COEFFICIENTS[id])
-                return id;
-        return rr_mob_id_max - 1;
-    }
-    else if (special_wave_id == 1)
-    {
-        if (rr_frand() > 0.5)
-            return rr_mob_id_pachycephalosaurus;
-        else
-            return rr_mob_id_ornithomimus;
-    }
-    else if (special_wave_id == 2)
-        return rr_mob_id_triceratops;
-    else
-        return rr_mob_id_trex;
+    uint8_t id = 0;
+    for (; id < rr_mob_id_max - 1; ++id)
+        if (seed <= table[id])
+            break;
+    return id;
 }
 
-int should_spawn_at(uint32_t wave, uint8_t id, uint8_t rarity)
+int should_spawn_at(uint8_t id, uint8_t rarity)
 {
-    if (id == rr_mob_id_trex && rarity < rr_rarity_id_unusual)
-        return 0;
-    if (id == rr_mob_id_dakotaraptor && rarity < rr_rarity_id_epic)
-        return 0;
-    if (id == rr_mob_id_triceratops && rarity < rr_rarity_id_unusual)
-        return 0;
-    return 1;
+    return rarity >= RR_MOB_DATA[id].min_rarity &&
+           rarity <= RR_MOB_DATA[id].max_rarity;
 }

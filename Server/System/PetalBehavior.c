@@ -30,6 +30,12 @@
 #include <Shared/Utilities.h>
 #include <Shared/Vector.h>
 
+#define RR_RUBY_SPAWN_LIFETIME (10 * 25)
+#define RR_RUBY_SPAWN_MAX_MOBS 10
+
+static void ruby_petal_system_tick(struct rr_simulation *simulation,
+                                  struct rr_component_petal *petal);
+
 struct area_captures
 {
     struct rr_simulation *simulation;
@@ -78,8 +84,11 @@ static void uranium_damage(EntityIdx target, void *_captures)
         return;
     struct rr_component_ai *ai = rr_simulation_get_ai(simulation, target);
     struct rr_component_mob *mob = rr_simulation_get_mob(simulation, target);
-    if (mob->player_spawned == 0 && mob->id != rr_mob_id_fern &&
-        mob->id != rr_mob_id_tree && mob->id != rr_mob_id_meteor)
+    if (mob->player_spawned == 0 &&
+        mob->id != rr_mob_id_fern &&
+        mob->id != rr_mob_id_tree &&
+        mob->id != rr_mob_id_meteor &&
+        mob->id != rr_mob_id_square)
     {
         ai->ai_type = rr_ai_type_aggro;
         if (ai->aggro_range < radius + target_physical->radius)
@@ -240,8 +249,15 @@ static void system_flower_petal_movement_logic(
         rr_simulation_get_relations(simulation, id);
     struct rr_component_physical *flower_physical =
         rr_simulation_get_physical(simulation, player_info->flower_id);
+    struct rr_component_physical *center_physical = flower_physical;
+    if (player_info->moon_nest != RR_NULL_ENTITY &&
+        petal->id != rr_petal_id_moon &&
+        rr_simulation_entity_alive(simulation, player_info->moon_nest))
+        center_physical =
+            rr_simulation_get_physical(simulation, player_info->moon_nest);
     struct rr_vector position_vector = {physical->x, physical->y};
     struct rr_vector flower_vector = {flower_physical->x, flower_physical->y};
+    struct rr_vector center_vector = {center_physical->x, center_physical->y};
     float curr_angle = player_info->global_rotation +
                        rotation_pos * 2 * M_PI / player_info->rotation_count;
 
@@ -532,7 +548,7 @@ static void system_flower_petal_movement_logic(
                 if (flower_physical->bubbling_to_death)
                     break;
                 if (flower_physical->bubbling)
-                    flower_physical->bubbling_to_death = 1;
+                    flower_physical->bubbling_to_death = 0;
                 flower_physical->bubbling = 1;
                 if (flower_physical->bubbling_to_death)
                 {
@@ -605,15 +621,18 @@ static void system_flower_petal_movement_logic(
                     &petal->bind_pos,
                     (target_physical->radius - physical->radius) * rr_frand(),
                     2 * M_PI * rr_frand());
-                petal->effect_delay =
-                    15;
-                rr_component_petal_set_detached(petal, 1);
+                petal->effect_delay = 15;
             }
+            break;
+        }
+        case rr_petal_id_ruby:
+        {
             break;
         }
         default:
             break;
         }
+            
     }
     else if (!petal->detached)
         --petal->effect_delay;
@@ -663,8 +682,9 @@ static void system_flower_petal_movement_logic(
         rr_vector_from_polar(&random_vector, 10.0f, rr_frand() * M_PI * 2);
         rr_vector_add(&chase_vector, &random_vector);
     }
-    physical->acceleration.x += 0.5f * chase_vector.x;
-    physical->acceleration.y += 0.5f * chase_vector.y;
+    float accel_scale = petal->id == rr_petal_id_moon ? 0.15f : 0.5f;
+    physical->acceleration.x += accel_scale * chase_vector.x;
+    physical->acceleration.y += accel_scale * chase_vector.y;
     if (petal->id == rr_petal_id_fireball &&
         rr_vector_magnitude_cmp(&physical->acceleration, 1.0f) == 1)
         rr_component_physical_set_angle(
@@ -803,7 +823,7 @@ system_egg_hatching_logic(struct rr_simulation *simulation,
         return;
     rr_simulation_request_entity_deletion(simulation, p_petal->entity_hash);
     uint8_t m_id, m_rar;
-    if (petal->id == rr_petal_id_egg)
+        if (petal->id == rr_petal_id_egg)
     {
         m_id = rr_mob_id_trex;
         m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
@@ -813,6 +833,17 @@ system_egg_hatching_logic(struct rr_simulation *simulation,
         m_id = rr_mob_id_meteor;
         m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
     }
+    else if (petal->id == rr_petal_id_square)
+    {
+        m_id = rr_mob_id_square;
+        m_rar = petal->rarity >= 1 ? petal->rarity : 0;
+    }
+    else if (petal->id == rr_petal_id_branch)
+    {
+        m_id = rr_mob_id_sandstorm;
+        m_rar = petal->rarity >= 1 ? petal->rarity - 1 : 0;
+    }
+    
     struct rr_component_physical *physical =
         rr_simulation_get_physical(simulation, p_petal->entity_hash);
     struct rr_component_relations *relations =
@@ -941,6 +972,30 @@ static void rr_system_petal_reload_foreach_function(EntityIdx id,
     petal_modifiers(simulation, player_info);
     uint32_t rotation_pos = 0;
     uint8_t has_bubble = 0;
+
+    player_info->moon_nest = RR_NULL_ENTITY;
+    for (uint64_t outer_m = 0; outer_m < player_info->slot_count; ++outer_m)
+    {
+        struct rr_component_player_info_petal_slot *slot_m =
+            &player_info->slots[outer_m];
+        if (slot_m->id != rr_petal_id_moon)
+            continue;
+        for (uint64_t inner_m = 0; inner_m < slot_m->count; ++inner_m)
+        {
+            struct rr_component_player_info_petal *p_petal_m =
+                &slot_m->petals[inner_m];
+            if (p_petal_m->entity_hash != RR_NULL_ENTITY &&
+                rr_simulation_entity_alive(simulation, p_petal_m->entity_hash) &&
+                rr_simulation_has_petal(simulation, p_petal_m->entity_hash))
+            {
+                player_info->moon_nest = p_petal_m->entity_hash;
+                break;
+            }
+        }
+        if (player_info->moon_nest != RR_NULL_ENTITY)
+            break;
+    }
+
     for (uint64_t outer = 0; outer < player_info->slot_count; ++outer)
     {
         struct rr_component_player_info_petal_slot *slot =
@@ -990,11 +1045,11 @@ static void rr_system_petal_reload_foreach_function(EntityIdx id,
                                                 p_petal->entity_hash);
                     petal->slot = slot;
                     petal->p_petal = p_petal;
-                    if (data->id == rr_petal_id_meteor)
-                        system_egg_hatching_logic(simulation, player_info,
-                                                  p_petal);
+                    if (data->id == rr_petal_id_meteor) system_egg_hatching_logic(simulation, player_info, p_petal);
+                    if (data->id == rr_petal_id_square) system_egg_hatching_logic(simulation, player_info, p_petal);
+                    if (data->id == rr_petal_id_branch) system_egg_hatching_logic(simulation, player_info, p_petal);
                 }
-                if (data->id == rr_petal_id_meteor)
+                if (data->id == rr_petal_id_meteor || data->id == rr_petal_id_square || data->id == rr_petal_id_branch)
                 {
                     if (--clump_count == 0)
                         --rotation_pos;
@@ -1040,10 +1095,23 @@ static void rr_system_petal_reload_foreach_function(EntityIdx id,
                 system_flower_petal_movement_logic(
                     simulation, p_petal->entity_hash, player_info,
                     rotation_pos - 1, outer, inner, data);
-            }
+                }
+                if (data->id == rr_petal_id_branch)
+                {
+                    if (rr_simulation_has_petal(simulation, p_petal->entity_hash))
+                        system_egg_hatching_logic(simulation, player_info, p_petal);
+                }
+                if (!rr_simulation_has_petal(simulation, p_petal->entity_hash) ||
+                    rr_simulation_get_relations(simulation,
+                        p_petal->entity_hash)->nest != RR_NULL_ENTITY)
+                {
+                    if (--clump_count == 0)
+                        --rotation_pos;
+                    continue;
+                }
         }
-        if (slot->id == rr_petal_id_bubble)
-            has_bubble = 1;
+        // if (slot->id == rr_petal_id_bubble)
+            // has_bubble = 1;
         rr_component_player_info_set_slot_cd(player_info, outer, max_cd);
         rr_component_player_info_set_slot_hp(player_info, outer, min_hp);
     }
@@ -1064,6 +1132,8 @@ static void system_petal_misc_logic(EntityIdx id, void *_simulation)
         rr_simulation_request_entity_deletion(simulation, id);
         return;
     }
+    if (petal->id == rr_petal_id_ruby)
+        ruby_petal_system_tick(simulation, petal);
     if (petal->detached == 0) // it's mob owned if this is true
     {
         if (petal->id == rr_petal_id_uranium)
@@ -1227,6 +1297,35 @@ static void system_nest_logic(EntityIdx id, void *_simulation)
                                   physical->y - flower_physical->y};
         if (rr_vector_magnitude_cmp(&delta, 5000) == 1)
             rr_simulation_request_entity_deletion(simulation, id);
+    }
+}
+
+static void ruby_petal_system_tick(struct rr_simulation *simulation,
+                                  struct rr_component_petal *petal)
+{
+    if (petal == NULL)
+        return;
+    for (uint8_t i = 0; i < RR_RUBY_SPAWN_MAX_MOBS; ++i)
+    {
+        EntityHash hash = petal->ruby_spawned_mobs[i];
+        if (hash == RR_NULL_ENTITY)
+            continue;
+        if (!rr_simulation_entity_alive(simulation, hash))
+        {
+            petal->ruby_spawned_mobs[i] = RR_NULL_ENTITY;
+            petal->ruby_spawned_lifespan[i] = 0;
+            if (petal->ruby_spawned_count > 0)
+                --petal->ruby_spawned_count;
+            continue;
+        }
+        if (petal->ruby_spawned_lifespan[i] > 0 &&
+            --petal->ruby_spawned_lifespan[i] == 0)
+        {
+            rr_simulation_request_entity_deletion(simulation, (EntityIdx)hash);
+            petal->ruby_spawned_mobs[i] = RR_NULL_ENTITY;
+            if (petal->ruby_spawned_count > 0)
+                --petal->ruby_spawned_count;
+        }
     }
 }
 

@@ -40,6 +40,9 @@ struct rr_component_petal
     RR_SERVER_ONLY(EntityHash bind_target;)
     RR_SERVER_ONLY(struct rr_vector bind_pos;)
     RR_SERVER_ONLY(uint32_t aggro_count;)
+    RR_SERVER_ONLY(uint8_t ruby_spawned_count;)
+    RR_SERVER_ONLY(EntityHash ruby_spawned_mobs[30];)
+    RR_SERVER_ONLY(uint16_t ruby_spawned_lifespan[30];)
     RR_SERVER_ONLY(struct rr_component_player_info_petal_slot *slot;)
     RR_SERVER_ONLY(struct rr_component_player_info_petal *p_petal;)
 };

@@ -83,10 +83,11 @@ enum rr_dev_cheat_type
 
 enum rr_biome_id
 {
-    rr_biome_id_hell_creek,
-    rr_biome_id_garden,
-    rr_biome_id_beehive,
-    rr_biome_id_max
+    rr_biome_id_hell_creek, // 0
+    rr_biome_id_garden,     // 1
+    rr_biome_id_ocean,      // 2
+    rr_biome_id_beehive,    // 3
+    rr_biome_id_max         // 4
 };
 
 enum rr_rarity_id
@@ -146,8 +147,17 @@ enum rr_petal_id
     rr_petal_id_rake,        // 36
     rr_petal_id_stick,       // 37
 
+    //ocean
+
+    //miscellaneous
+    rr_petal_id_ruby,        // 38
+    rr_petal_id_square,      // 39
+    rr_petal_id_mjolnir,     // 40
+    rr_petal_id_moon,        // 41
+    rr_petal_id_branch,      // 42
+
     //max
-    rr_petal_id_max,         // 38
+    rr_petal_id_max,         // 43
 };
 
 enum rr_mob_id
@@ -177,8 +187,14 @@ enum rr_mob_id
     rr_mob_id_lanternfly,         // 19
     rr_mob_id_pectinodon,         // 20
 
+    //ocean
+
+    //miscellaneous
+    rr_mob_id_square,             // 21
+    rr_mob_id_sandstorm,          // 22
+
     //max
-    rr_mob_id_max,                // 21
+    rr_mob_id_max,                // 23
 };
 
 struct rr_petal_base_stat_scale
@@ -248,6 +264,7 @@ extern double RR_MOB_WAVE_RARITY_COEFFICIENTS[rr_rarity_id_max + 1];
 extern uint32_t RR_MOB_DIFFICULTY_COEFFICIENTS[rr_mob_id_max];
 extern double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max];
 extern double RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max];
+extern double RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max];
 
 extern uint32_t RR_RARITY_COLORS[rr_rarity_id_max];
 extern char const *RR_RARITY_NAMES[rr_rarity_id_max];
@@ -298,6 +315,8 @@ struct rr_maze_declaration
 
 // RR_DECLARE_MAZE(HELL_CREEK, 54)
 RR_DECLARE_MAZE(HELL_CREEK, 80)
+RR_DECLARE_MAZE(GARDEN, 82)
+RR_DECLARE_MAZE(OCEAN, 82)
 RR_DECLARE_MAZE(BURROW, 4)
 
 extern struct rr_maze_declaration RR_MAZES[rr_biome_id_max];

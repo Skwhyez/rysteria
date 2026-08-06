@@ -283,7 +283,8 @@ static void system_velocity(EntityIdx id, void *simulation)
          rr_simulation_get_petal(simulation, id)->id != rr_petal_id_egg &&
          rr_simulation_get_petal(simulation, id)->id != rr_petal_id_nest &&
          rr_simulation_get_petal(simulation, id)->id != rr_petal_id_meat &&
-         rr_simulation_get_petal(simulation, id)->id != rr_petal_id_peas) ||
+         rr_simulation_get_petal(simulation, id)->id != rr_petal_id_peas &&
+         rr_simulation_get_petal(simulation, id)->id != rr_petal_id_moon) ||
         physical->bubbling_to_death ||
         dev_cheat_enabled(simulation, id, no_wall_collision))
     {

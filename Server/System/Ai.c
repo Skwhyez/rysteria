@@ -12,7 +12,7 @@
 // GNU Affero General Public License for more details.
 
 // You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// along with this program.  If not, see <https://gnu.org>.
 
 #include <Server/System/System.h>
 
@@ -116,6 +116,24 @@ static void system_for_each(EntityIdx entity, void *simulation)
     case rr_mob_id_quetzalcoatlus:
         tick_ai_quetzalcoaltus(entity, this);
         break;
+    case rr_mob_id_ant:
+        tick_ai_ornithomimus(entity, this);
+        break;
+    case rr_mob_id_honeybee:
+        tick_ai_default(entity, this, RR_PLAYER_SPEED * 0.95);
+        break;
+    case rr_mob_id_dragonfly:
+        tick_ai_default(entity, this, RR_PLAYER_SPEED * 1.6);
+        break;
+    case rr_mob_id_spider:
+        tick_ai_default(entity, this, RR_PLAYER_SPEED * 1.5);
+        break;
+    case rr_mob_id_hornet:
+        tick_ai_hornet(entity, this);
+        break;
+    case rr_mob_id_beehive:
+        tick_ai_beehive(entity, this);
+        break;
     case rr_mob_id_fern:
     case rr_mob_id_tree:
     case rr_mob_id_edmontosaurus:
@@ -129,4 +147,16 @@ static void system_for_each(EntityIdx entity, void *simulation)
 void rr_system_ai_tick(struct rr_simulation *simulation)
 {
     rr_simulation_for_each_ai(simulation, simulation, system_for_each);
+}
+
+void tick_ai_hornet(EntityIdx entity, struct rr_simulation *this)
+{
+    (void)entity;
+    (void)this;
+}
+
+void tick_ai_beehive(EntityIdx entity, struct rr_simulation *this)
+{
+    (void)entity;
+    (void)this;
 }

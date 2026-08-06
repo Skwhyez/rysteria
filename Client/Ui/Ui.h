@@ -40,6 +40,7 @@ struct rr_ui_labeled_button_metadata
     uint8_t *toggle;
     char *text;
     uint8_t clickable;
+    uint8_t biome;
 };
 
 struct rr_ui_text_metadata
@@ -222,6 +223,7 @@ extern struct rr_ui_element *rr_ui_gardn_toggle_button_init();
 extern struct rr_ui_element *rr_ui_settings_container_init(struct rr_game *);
 extern struct rr_ui_element *rr_ui_squad_button_init();
 extern struct rr_ui_element *rr_ui_create_squad_button_init();
+extern struct rr_ui_element *rr_ui_create_squad_biome_button_init(char *, uint32_t, uint8_t);
 extern struct rr_ui_element *rr_ui_join_button_init();
 extern struct rr_ui_element *rr_ui_copy_squad_code_button_init();
 extern struct rr_ui_element *rr_ui_join_squad_code_button_init();

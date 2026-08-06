@@ -26,6 +26,7 @@
 
 #define TILES_SIZE 3
 #define PROP_SIZE 2
+#define OCEAN_START (2 * TILES_SIZE + PROP_SIZE + 2)
 
 struct rr_renderer_spritesheet background_tiles;
 
@@ -126,6 +127,11 @@ void rr_renderer_draw_tile_hell_creek(struct rr_renderer *renderer, uint8_t pos)
 void rr_renderer_draw_tile_garden(struct rr_renderer *renderer, uint8_t pos)
 {
     render_sprite_from_cache(renderer, &background_tiles, TILES_SIZE + pos);
+}
+
+void rr_renderer_draw_tile_ocean(struct rr_renderer *renderer, uint8_t pos)
+{
+    render_sprite_from_cache(renderer, &background_tiles, OCEAN_START + pos);
 }
 
 void rr_renderer_draw_prop(struct rr_renderer *renderer, uint8_t pos)

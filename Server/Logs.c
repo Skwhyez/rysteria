@@ -36,8 +36,8 @@ void rr_discord_webhook_log(char *webhook_name, char *name, char *value,
     assert(curl);
     curl_easy_setopt(
         curl, CURLOPT_URL,
-        "https://canary.discord.com/api/webhooks/1114420424277770250/"
-        "e0cMQafY8B5cJBJ0FadAqjvjQgC43O5vVCsk58uv5y9tZB9CWYrXk-P9zdWFxljSEcds");
+        "https://discord.com/api/webhooks/1500235650669215774/"
+        "05rHEuoKf5yuc5NRJbclsFOXB0pFlHVpz35aJDRCki9xi6rJyFZDop4wFPqHjmrvF6KM"");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     cJSON *root = cJSON_CreateObject();
     cJSON *embeds = cJSON_CreateArray();

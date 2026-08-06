@@ -19,8 +19,8 @@
 #include <stdint.h>
 
 #define RR_DISCORD_WEBHOOK_URL                                                 \
-    "https://canary.discord.com/api/webhooks/1114420424277770250/"             \
-    "e0cMQafY8B5cJBJ0FadAqjvjQgC43O5vVCsk58uv5y9tZB9CWYrXk-P9zdWFxljSEcds"
+    "https://discord.com/api/webhooks/1500235650669215774/"                   \
+    "05rHEuoKf5yuc5NRJbclsFOXB0pFlHVpz35aJDRCki9xi6rJyFZDop4wFPqHjmrvF6KM"
 
 void rr_discord_webhook_log(char *webhook_name, char *name, char *value,
                             uint32_t color);

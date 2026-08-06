@@ -46,6 +46,7 @@ struct rr_server_client_dev_cheats
     uint8_t no_wall_collision : 1;
     uint8_t no_collision : 1;
     uint8_t no_grid_influence : 1;
+    uint8_t no_drop : 1;
     float speed_percent;
     float fov_percent;
 };

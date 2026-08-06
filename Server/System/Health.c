@@ -22,8 +22,14 @@
 
 #include <Server/Client.h>
 #include <Server/EntityDetection.h>
+#include <Server/EntityAllocation.h>
 #include <Server/Simulation.h>
 #include <Shared/Bitset.h>
+#include <Shared/Component/Petal.h>
+#include <Shared/Component/PlayerInfo.h>
+#include <Shared/Component/Relations.h>
+
+#define RR_RUBY_SPAWN_LIFETIME (10 * 25)
 
 struct colliding_with_captures
 {
@@ -159,7 +165,8 @@ static void lightning_petal_system(struct rr_simulation *simulation,
             &captures, lightning_filter);
     }
     animation->length = captures.length;
-    if (!dev_cheat_enabled(simulation, petal->parent_id, invulnerable))
+    if (petal->id != rr_petal_id_mjolnir &&
+        !dev_cheat_enabled(simulation, petal->parent_id, invulnerable))
         rr_simulation_request_entity_deletion(simulation, petal->parent_id);
 }
 
@@ -309,7 +316,7 @@ static uint8_t damage_effect(struct rr_simulation *simulation, EntityIdx target,
                 (1 + sqrtf(RR_PETAL_RARITY_SCALE[petal->rarity].heal) / 3) *
                 (1 - physical->slow_resist);
         }
-        else if (petal->id == rr_petal_id_lightning)
+        else if (petal->id == rr_petal_id_lightning || petal->id == rr_petal_id_mjolnir)
         {
             lightning_petal_system(simulation, petal, target);
             return 0;

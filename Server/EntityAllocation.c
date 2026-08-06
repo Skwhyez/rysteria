@@ -124,6 +124,16 @@ EntityIdx rr_simulation_alloc_petal(struct rr_simulation *this, EntityIdx arena,
         rr_component_physical_set_radius(physical, 75);
     else if (id == rr_petal_id_stick)
     {
+        rr_component_physical_set_radius(physical, 10);
+    }
+    else if (id == rr_petal_id_mjolnir)
+        rr_component_physical_set_radius(physical, 18);
+    else if (id == rr_petal_id_moon)
+    {
+        rr_component_physical_set_radius(physical, 300);
+        physical->mass = 300;
+    }
+    {
         float burn_damage;
 
     switch (rarity) {

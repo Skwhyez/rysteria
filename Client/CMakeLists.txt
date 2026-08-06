@@ -46,6 +46,7 @@ set(SRCS
     Assets/Mob/Meteor.c
     Assets/Mob/Tree.c
     Assets/Mob/Pectinodon.c
+    Assets/Mob/Square.c
     Assets/Tile/Garden.c
     Assets/Tile/HellCreek.c
     Assets/Tile/Ocean.c

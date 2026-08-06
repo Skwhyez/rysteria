@@ -72,6 +72,17 @@ static void get_cooldown(struct rr_ui_element *this, struct rr_game *game)
                 if (game->cache.loadout[i].id == rr_petal_id_berry)
                     reload_speed += 0.02 * (game->cache.loadout[i].rarity + 1);
         }
+        {
+            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
+                if (game->player_info->slots[i].id == rr_petal_id_golden_leaf)
+                    reload_speed += 0.04 *
+                                    (game->player_info->slots[i].rarity + 1);
+        }
+        {
+            for (uint8_t i = 0; i < game->slots_unlocked; ++i)
+                if (game->cache.loadout[i].id == rr_petal_id_golden_leaf)
+                    reload_speed += 0.04 * (game->cache.loadout[i].rarity + 1);
+        }
     }
     if (RR_PETAL_DATA[id].cooldown == 0)
         cd[0] = 0;
@@ -142,22 +153,25 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
 {
     char fmt[16];
     char *hp = malloc((sizeof *hp) * 16);
-    if (id != rr_petal_id_meteor)
-        rr_sprintf(hp, RR_PETAL_DATA[id].health *
-                           RR_PETAL_DATA[id].scale[rarity].health);
+    if (id == rr_petal_id_meteor)
+        rr_sprintf(hp, RR_MOB_DATA[rr_mob_id_meteor].health * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity - 1 : 0].health);
+    else if (id == rr_petal_id_square)
+        rr_sprintf(hp, RR_MOB_DATA[rr_mob_id_square].health * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity : 0].health);
+    else if (id == rr_petal_id_branch)
+        rr_sprintf(hp, RR_MOB_DATA[rr_mob_id_sandstorm].health * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity : 0].health);
     else
-        rr_sprintf(hp, RR_MOB_DATA[rr_mob_id_meteor].health *
-                           RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity - 1
-                                                             : 0].health);
+        rr_sprintf(hp, RR_PETAL_DATA[id].health * RR_PETAL_DATA[id].scale[rarity].health);
     char *dmg = malloc((sizeof *dmg) * 16);
-    if (id != rr_petal_id_meteor)
-        rr_sprintf(dmg, RR_PETAL_DATA[id].damage *
-                            RR_PETAL_DATA[id].scale[rarity].damage /
-                            RR_PETAL_DATA[id].count[rarity]);
+    if (id == rr_petal_id_meteor)
+        rr_sprintf(dmg, RR_MOB_DATA[rr_mob_id_meteor].damage * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity - 1 : 0].damage);
+    else if (id == rr_petal_id_egg)
+        rr_sprintf(dmg, RR_MOB_DATA[rr_mob_id_trex].damage * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity - 1 : 0].damage);
+    else if (id == rr_petal_id_square)
+        rr_sprintf(dmg, RR_MOB_DATA[rr_mob_id_square].damage * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity : 0].damage);
+    else if (id == rr_petal_id_branch)
+        rr_sprintf(dmg, RR_MOB_DATA[rr_mob_id_sandstorm].damage * RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity : 0].damage);  
     else
-        rr_sprintf(dmg, RR_MOB_DATA[rr_mob_id_meteor].damage *
-                            RR_MOB_RARITY_SCALING[rarity >= 1 ? rarity - 1
-                                                              : 0].damage);
+        rr_sprintf(dmg, RR_PETAL_DATA[id].damage * RR_PETAL_DATA[id].scale[rarity].damage / RR_PETAL_DATA[id].count[rarity]);
 
     struct rr_ui_tooltip_metadata *tooltip_data = malloc(sizeof *tooltip_data);
     tooltip_data->id = id;
@@ -204,8 +218,14 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                                   rr_ui_text_init("Health: ", 12, 0xff44ff44),
                                   rr_ui_text_init(hp, 12, 0xffffffff), NULL),
                               -1, 0));
-    if (id != rr_petal_id_shell && id != rr_petal_id_crest &&
-        id != rr_petal_id_third_eye && id != rr_petal_id_meat)
+    if (id != rr_petal_id_shell &&
+        id != rr_petal_id_crest &&
+        id != rr_petal_id_third_eye &&
+        id != rr_petal_id_meat &&
+        id != rr_petal_id_ruby)
+    {
+        uint32_t dmg_color = (id == rr_petal_id_lightning || id == rr_petal_id_mjolnir)
+            ? 0xffccccfc : 0xffff4444;
         rr_ui_container_add_element(
             this,
             rr_ui_set_justify(rr_ui_h_container_init(
@@ -213,6 +233,7 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                                   rr_ui_text_init("Damage: ", 12, 0xffff4444),
                                   rr_ui_text_init(dmg, 12, 0xffffffff), NULL),
                               -1, 0));
+    }
     if (id == rr_petal_id_shell)
     {
         char *extra = malloc((sizeof *extra) * 16);
@@ -282,6 +303,19 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                       -1, 0));
         extra = malloc((sizeof *extra) * 16);
         sprintf(extra, "+%.0f%%", 0.02 * (rarity + 1) * 100);
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Petal reload speed: ", 12, 0xff12bef1),
+                          rr_ui_text_init(extra, 12, 0xffffffff), NULL),
+                      -1, 0));
+    }
+    else if (id == rr_petal_id_golden_leaf)
+    {
+        char *extra = malloc((sizeof *extra) * 16);
+        extra = malloc((sizeof *extra) * 16);
+        sprintf(extra, "+%.0f%%", 0.04 * (rarity + 1) * 100);
         rr_ui_container_add_element(
             this, rr_ui_set_justify(
                       rr_ui_h_container_init(
@@ -602,6 +636,46 @@ struct rr_ui_element *rr_ui_petal_tooltip_init(uint8_t id, uint8_t rarity)
                                       rr_ui_text_init("Burn: ", 12, 0xffd97232),
                                       rr_ui_text_init(extra_poison, 12, 0xffffffff), NULL),
                                   -1, 0));
+    }
+    else if (id == rr_petal_id_ruby)
+    {
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Spawns: ", 12, 0xffe07422),
+                          rr_ui_text_init(
+                              RR_RARITY_NAMES[rarity >= 1 ? rarity - 1 : 0], 12,
+                              RR_RARITY_COLORS[rarity >= 1 ? rarity - 1 : 0]),
+                          rr_ui_text_init(" Rubied mob", 12, 0xffffffff), NULL),
+                      -1, 0));
+    }
+    else if (id == rr_petal_id_square)
+    {
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Spawns: ", 12, 0xffe07422),
+                          rr_ui_text_init(
+                              RR_RARITY_NAMES[rarity >= 1 ? rarity : 0], 12,
+                              RR_RARITY_COLORS[rarity >= 1 ? rarity : 0]),
+                          rr_ui_text_init(" Square", 12, 0xffffffff), NULL),
+                      -1, 0));
+    }
+    else if (id == rr_petal_id_branch)
+    {
+        rr_ui_container_add_element(
+            this, rr_ui_set_justify(
+                      rr_ui_h_container_init(
+                          rr_ui_container_init(), 0, 0,
+                          rr_ui_text_init("Spawns: ", 12, 0xffe07422),
+                          rr_ui_text_init("x1 ", 12, 0xffffffff),
+                          rr_ui_text_init(
+                              RR_RARITY_NAMES[rarity >= 1 ? rarity - 1 : 0], 12,
+                              RR_RARITY_COLORS[rarity >= 1 ? rarity - 1 : 0]),
+                          rr_ui_text_init(" Sandstorm", 12, 0xffffffff), NULL),
+                      -1, 0));
     }
     return this;
 }

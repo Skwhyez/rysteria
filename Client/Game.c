@@ -489,15 +489,11 @@ void rr_game_init(struct rr_game *this)
                                 rr_ui_join_button_init(),
                                 NULL
                             ),
-                            /*
-                            rr_ui_h_container_init(rr_ui_container_init(), 0, 10,
-                                rr_ui_biome_button_init("Hell Creek", 0xffff0000, 0),
-                                rr_ui_biome_button_init("Ocean", 0xffcdb423, 1),
-                                NULL
-                            ),
-                            */
                             rr_ui_set_justify(
-                                rr_ui_h_container_init(rr_ui_container_init(), 0, 10, 
+                                rr_ui_h_container_init(rr_ui_container_init(), 0, 10,
+                                rr_ui_create_squad_biome_button_init("Hell Creek", 0xff8B4513, rr_biome_id_hell_creek),
+                                rr_ui_create_squad_biome_button_init("Garden", 0xff228B22, rr_biome_id_garden),
+                                rr_ui_create_squad_biome_button_init("Ocean", 0xff0077be, rr_biome_id_ocean),
                                 rr_ui_create_squad_button_init(),
                                 rr_ui_squad_button_init(),
                                 NULL
@@ -1475,6 +1471,7 @@ void rr_write_dev_cheat_packets(struct rr_game *this, uint8_t force)
     cheat_flags |= this->dev_cheats.no_wall_collision << 3;
     cheat_flags |= this->dev_cheats.no_collision << 4;
     cheat_flags |= this->dev_cheats.no_grid_influence << 5;
+    cheat_flags |= this->dev_cheats.no_drop << 6;
     if (force || cheat_flags != this->dev_cheats.flags_last_tick)
     {
         this->dev_cheats.flags_last_tick = cheat_flags;
@@ -1635,31 +1632,41 @@ void rr_game_tick(struct rr_game *this, float delta)
         double topY = 0 - this->renderer->height / (2 * scale);
         double bottomY = 0 + this->renderer->height / (2 * scale);
 
-#define GRID_SIZE (512.0f)
-        double newLeftX = floorf(leftX / GRID_SIZE) * GRID_SIZE;
-        double newTopY = floorf(topY / GRID_SIZE) * GRID_SIZE;
-        for (; newLeftX < rightX; newLeftX += GRID_SIZE)
+#define GRID_SIZE 512.0f 
+
+for (double newLeftX = floorf(leftX / GRID_SIZE) * GRID_SIZE; newLeftX < rightX; newLeftX += GRID_SIZE)
+{
+    for (double newTopY = floorf(topY / GRID_SIZE) * GRID_SIZE; newTopY < bottomY; newTopY += GRID_SIZE)
+    {
+        double currY = newTopY; 
+
+        uint32_t tile_index =
+            rr_get_hash((uint32_t)(((newLeftX + 8192) / GRID_SIZE + 1) *
+                                   ((currY + 8192) / GRID_SIZE + 2))) % 3;
+        
+        struct rr_renderer_context_state state;
+        rr_renderer_context_state_init(this->renderer, &state);
+        rr_renderer_translate(this->renderer, newLeftX + GRID_SIZE / 2, currY + GRID_SIZE / 2);
+        rr_renderer_scale(this->renderer, (GRID_SIZE + 2) / 256);
+
+        if (this->selected_biome == rr_biome_id_hell_creek)
         {
-            for (double currY = newTopY; currY < bottomY; currY += GRID_SIZE)
-            {
-                uint32_t tile_index =
-                    rr_get_hash((uint32_t)(((newLeftX + 8192) / GRID_SIZE + 1) *
-                                           ((currY + 8192) / GRID_SIZE + 2))) %
-                    3;
-                struct rr_renderer_context_state state;
-                rr_renderer_context_state_init(this->renderer, &state);
-                rr_renderer_translate(this->renderer, newLeftX + GRID_SIZE / 2,
-                                      currY + GRID_SIZE / 2);
-                rr_renderer_scale(this->renderer, (GRID_SIZE + 2) / 256);
-                if (this->selected_biome == 0)
-                    rr_renderer_draw_tile_hell_creek(this->renderer,
-                                                     tile_index);
-                else
-                    rr_renderer_draw_tile_garden(this->renderer, tile_index);
-                rr_renderer_context_state_free(this->renderer, &state);
-            }
+            rr_renderer_draw_tile_hell_creek(this->renderer, tile_index);
         }
+        else if (this->selected_biome == rr_biome_id_ocean)
+        {
+            rr_renderer_draw_tile_ocean(this->renderer, tile_index);
+        }
+        else
+        {
+            rr_renderer_draw_tile_garden(this->renderer, tile_index);
+        }
+        
+        rr_renderer_context_state_free(this->renderer, &state);
+    }
+}
 #undef GRID_SIZE
+
         struct rr_simulation *sim = this->simulation;
         rr_simulation_create_component_vectors(sim);
         if (rr_frand() < 0.05)

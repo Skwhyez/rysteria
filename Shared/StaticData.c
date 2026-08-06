@@ -50,15 +50,15 @@ struct rr_petal_data RR_PETAL_DATA[rr_petal_id_max] = {
 //   id                     min_rarity              scale        dmg      hp   clump   cd 2cd  count
     {rr_petal_id_none,        rr_rarity_id_common,    offensive,  0.0f,   0.0f,   0.0f,   0,  0, {0,0,0,0,0,0,0,0}},
     {rr_petal_id_basic,       rr_rarity_id_common,    offensive, 10.0f,  15.0f,   0.0f,  50,  0, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_pellet,      rr_rarity_id_common,    offensive,  8.0f,   5.0f,   0.0f,  13,  0, {1,2,2,3,3,5,6,6}},
+    {rr_petal_id_pellet,      rr_rarity_id_common,    offensive,  8.0f,   5.0f,   0.0f,  15,  0, {1,2,2,3,3,5,6,6}},
     {rr_petal_id_fossil,      rr_rarity_id_common,    offensive,  5.0f, 100.0f,   0.0f, 100,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_stinger,     rr_rarity_id_common,    offensive, 65.0f,   3.0f,  10.0f, 150,  0, {1,1,1,1,1,3,5,5}},
     {rr_petal_id_berry,       rr_rarity_id_rare,      offensive,  5.0f,   5.0f,  12.0f,  13,  0, {1,1,1,1,1,2,3,3}},
     {rr_petal_id_shell,       rr_rarity_id_rare,      offensive, 30.0f,  16.0f,   0.0f,  50, 13, {1,1,1,1,1,2,3,3}},
     {rr_petal_id_peas,        rr_rarity_id_rare,      offensive, 22.0f,  12.0f,   8.0f,  13, 12, {4,4,4,4,4,4,5,5}},
-    {rr_petal_id_leaf,        rr_rarity_id_unusual,   offensive,  9.0f,   8.0f,   8.0f,  38,  0, {1,1,1,1,1,2,2,2}},
+    {rr_petal_id_leaf,        rr_rarity_id_unusual,   offensive,  9.0f,   8.0f,   8.0f,  40,  0, {1,1,1,1,1,2,2,2}},
     {rr_petal_id_egg,         rr_rarity_id_unusual,   defensive,  1.0f,  75.0f,  10.0f,  25,100, {3,3,3,2,2,2,1,1}},
-    {rr_petal_id_magnet,      rr_rarity_id_rare,      defensive,  2.0f,  25.0f,   0.0f,  38,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_magnet,      rr_rarity_id_rare,      defensive,  2.0f,  25.0f,   0.0f,  40,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_uranium,     rr_rarity_id_rare,      offensive,  3.0f,  40.0f,   0.0f,  25, 25, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_feather,     rr_rarity_id_common,    defensive,  1.0f,   3.0f,   0.0f,  25,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_azalea,      rr_rarity_id_common,    defensive,  5.0f,  15.0f,  10.0f,  25, 50, {1,1,1,1,1,1,3,3}},
@@ -68,24 +68,29 @@ struct rr_petal_data RR_PETAL_DATA[rr_petal_id_max] = {
     {rr_petal_id_gravel,      rr_rarity_id_unusual,   offensive,  9.0f,  20.0f,   0.0f,  20, 10, {1,2,2,2,3,3,4,4}},
     {rr_petal_id_club,        rr_rarity_id_common,    defensive,  8.0f, 600.0f,   0.0f, 250,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_crest,       rr_rarity_id_rare,      offensive,  0.0f,   0.0f,   0.0f,   0,  0, {0,0,0,0,0,0,0,0}},
-    {rr_petal_id_droplet,     rr_rarity_id_common,    offensive, 15.0f,   5.0f,   0.0f,  37,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_droplet,     rr_rarity_id_common,    offensive, 15.0f,   5.0f,   0.0f,  40,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_beak,        rr_rarity_id_unusual,   defensive,  5.0f,   5.0f,   0.0f,  55,  0, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_lightning,   rr_rarity_id_unusual,   offensive,  7.0f,   1.0f,   0.0f,  63,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_lightning,   rr_rarity_id_unusual,   offensive,  7.0f,   1.0f,   0.0f,  65,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_third_eye,   rr_rarity_id_legendary, offensive,  0.0f,   0.0f,   0.0f,   0,  0, {0,0,0,0,0,0,0,0}},
     {rr_petal_id_nest,        rr_rarity_id_legendary, defensive,  5.0f,  25.0f,   0.0f, 125,  1, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_fireball,    rr_rarity_id_unusual,   offensive,260.0f,   1.0f,   0.0f, 600,  0, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_meat,        rr_rarity_id_common,    offensive,  0.0f,1600.0f,   0.0f, 188, 13, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_bubble,      rr_rarity_id_common,    defensive,  1.0f,  25.0f,   0.0f, 150,  3, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_meat,        rr_rarity_id_common,    offensive,  0.0f,1600.0f,   0.0f, 200, 13, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_bubble,      rr_rarity_id_common,    defensive,  1.0f,  25.0f,   0.0f,  75,  3, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_meteor,      rr_rarity_id_unusual,   defensive,  0.0f,   0.0f,   0.0f,  50,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_mandible,    rr_rarity_id_common,    offensive,  5.0f,  10.0f,   0.0f,  75,  0, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_wax,         rr_rarity_id_unusual,   offensive, 10.0f,  10.0f,  10.0f,  38,  0, {2,2,2,2,2,2,2,2}},
-    {rr_petal_id_sand,        rr_rarity_id_common,    offensive, 15.0f,  10.0f,  10.0f,  37,  0, {4,4,4,4,4,4,4,4}},
+    {rr_petal_id_wax,         rr_rarity_id_unusual,   offensive, 10.0f,  10.0f,  10.0f,  40,  0, {2,2,2,2,2,2,2,2}},
+    {rr_petal_id_sand,        rr_rarity_id_common,    offensive, 15.0f,  10.0f,  10.0f,  35,  0, {4,4,4,4,4,4,4,4}},
     {rr_petal_id_mint,        rr_rarity_id_unusual,   offensive,  5.0f,  10.0f,  10.0f,  50, 25, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_rice,        rr_rarity_id_unusual,   offensive,  3.0f,   1.0f,   0.0f,   1,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_golden_leaf, rr_rarity_id_mythic,    offensive,  3.0f,   3.0f,   8.0f,  19,  0, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_missile,     rr_rarity_id_rare,      offensive,  8.0f,   1.0f,   0.0f,  10,  5, {1,1,1,1,1,1,1,1}},
     {rr_petal_id_rake,        rr_rarity_id_mythic,    offensive, 10.0f,  30.0f,   0.0f,  75,  0, {1,1,1,1,1,1,1,1}},
-    {rr_petal_id_stick,       rr_rarity_id_rare,      offensive,  1.0f,  8.0f,    0.0f,  50,  0, {1,1,1,1,1,3,5,5}},
+    {rr_petal_id_stick,       rr_rarity_id_rare,      offensive,  1.0f,   8.0f,   0.0f,  50,  0, {1,1,1,1,1,3,5,5}},
+    {rr_petal_id_ruby,        rr_rarity_id_exotic,    defensive,  0.0f, 135.0f,   0.0f,  75,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_square,      rr_rarity_id_common,    defensive,  0.0f,   0.0f,   0.0f,  25,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_mjolnir,     rr_rarity_id_ultimate,  offensive, 35.0f, 300.5f,   0.0f,  75,  0, {1,1,1,1,1,1,1,2}},
+    {rr_petal_id_moon,        rr_rarity_id_exotic,    offensive,  3.0f,3300.0f,   0.0f, 750,  0, {1,1,1,1,1,1,1,1}},
+    {rr_petal_id_branch,      rr_rarity_id_epic,    offensive,  3.0f, 300.0f,   0.0f, 125,  0, {1,1,1,1,1,1,1,2}},
 };    
 
 char const *RR_PETAL_NAMES[rr_petal_id_max] = {
@@ -94,7 +99,8 @@ char const *RR_PETAL_NAMES[rr_petal_id_max] = {
     "Bone",     "Web",       "Seed",      "Gravel", "Club",     "Crest",   "Droplet",
     "Beak",     "Lightning", "Third Eye", "Nest",   "Fireball", "Meat",    "Bubble",
     "Meteor",   "Mandible",  "Wax",       "Sand",   "Mint",     "Rice",    "Golden Leaf",
-    "Missile",  "Rake",      "Stick",
+    "Missile",  "Rake",      "Stick",     "Ruby",   "Square",   "Mjolnir", "Moon",
+    "Branch",
 };
 
 char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
@@ -131,11 +137,16 @@ char const *RR_PETAL_DESCRIPTIONS[rr_petal_id_max] = {
     "Made by the bees", //wax
     "Very fine", //sand
     "Remember to feed your pets", //mint
-    "The opposite of stinger", //rice
+    "The opposite of stinger (Credits to Swierszcz)", //rice
     "A very special leaf that allows you to use your petals even more", //golden leaf
-    "You can't dodge this one", //missile
-    "Good for removing dead flowers" //rake
-    ""
+    "You can't dodge this one (Credits to Swierszcz)", //missile
+    "Good for removing dead flowers (Credits to Swierszcz)", //rake
+    "This stick burns (Credits to Swierszcz)", //stick
+    "This mysterious gem makes enemies go on your side", //ruby
+    "This doesn't belong here", //square
+    "Where did you steal this from? (Credits to Lortus)", //mjolnir
+    "This petal is so big it could crush a dino (Credits to Lortus)", //moon
+    "Woah that's a big sandstorm (Credits to Lortus)" //branch
 };
 
 struct rr_mob_data RR_MOB_DATA[rr_mob_id_max] = {
@@ -161,6 +172,8 @@ struct rr_mob_data RR_MOB_DATA[rr_mob_id_max] = {
     {rr_mob_id_house_centipede,    rr_rarity_id_common, rr_rarity_id_ultimate,  25, 10, 23.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_peas,            0.1},{rr_petal_id_sand,      0.05}}},
     {rr_mob_id_lanternfly,         rr_rarity_id_common, rr_rarity_id_ultimate,  20, 10, 25.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_mint,            0.1},{rr_petal_id_sand,      0.05}}},
     {rr_mob_id_pectinodon,         rr_rarity_id_common, rr_rarity_id_ultimate,  35, 10, 25.0f, rr_rarity_id_common, rr_rarity_id_common, rr_rarity_id_max,     {{rr_petal_id_stick,          0.05},{rr_petal_id_feather,    0.1},{rr_petal_id_wax,       0.05}}},
+    {rr_mob_id_square,             rr_rarity_id_common, rr_rarity_id_ultimate,  20,  5, 20.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_square,        1.0}}},
+    {rr_mob_id_sandstorm,          rr_rarity_id_common, rr_rarity_id_max,       25, 15, 40.0f, rr_rarity_id_common, rr_rarity_id_max,    rr_rarity_id_max,     {{rr_petal_id_sand,           0.10},{rr_petal_id_branch,    0.05}}},
 };
 
 char const *RR_MOB_NAMES[rr_mob_id_max] = {
@@ -168,7 +181,7 @@ char const *RR_MOB_NAMES[rr_mob_id_max] = {
 "Pachycephalosaurus","Ornithomimus","Ankylosaurus","Meteor",
 "Quetzalcoatlus","Edmontosaurus","Ant","Hornet","Dragonfly",
 "Honeybee","Beehive","Spider","House Centipede","Lanternfly",
-"Pectinodon"
+"Pectinodon", "Square", "Sandstorm"
 };
 
 uint32_t RR_MOB_DIFFICULTY_COEFFICIENTS[rr_mob_id_max] = {
@@ -192,7 +205,9 @@ uint32_t RR_MOB_DIFFICULTY_COEFFICIENTS[rr_mob_id_max] = {
     0,   //spider
     0,   //house_centipede
     0,   //lanternfly
-    10,   // pectinodon
+    5,  // pectinodon
+    0,   // square
+    3,   // sandstorm
 };
 
 double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
@@ -216,9 +231,57 @@ double RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
     0,    //spider
     0,    //house_centipede
     0,    //lanternfly
-    0,   // pectinodon
+    15,    // pectinodon
+    0.0001,   // square
 };
-double RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 10};
+double RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
+    0,    //tric
+    0,    //trex
+    10,   //fern
+    0.5,  //tree
+    0,    //pter
+    0,    //dako
+    0,    //pachy
+    0,    //ornith
+    0,    //anky
+    0.5,  //meteor
+    0,    //quetz
+    0,    //edmo
+    70,   //ant
+    75,   //hornet
+    40,   //dragonfly
+    40,   //honeybee
+    5,    //beehive
+    10,   //spider
+    5,    //house_centipede
+    25,   //lanternfly
+    25,   // pectinodon
+    0.0001,   // square
+};
+double RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max] = {
+    0,    //tric
+    0,    //trex
+    0,    //fern
+    0,    //tree
+    0,    //pter
+    0,    //dako
+    0,    //pachy
+    0,    //ornith
+    0,    //anky
+    0,    //meteor
+    0,    //quetz
+    0,    //edmo
+    0,    //ant
+    0,    //hornet
+    0,    //dragonfly
+    0,    //honeybee
+    0,    //beehive
+    0,    //spider
+    0,    //house_centipede
+    0,    //lanternfly
+    0,    // pectinodon
+    0.0001,   // square
+};
 
 struct rr_petal_rarity_scale RR_PETAL_RARITY_SCALE[rr_rarity_id_max] = {
 //   heal   seed reload  web size
@@ -299,6 +362,8 @@ static void init_game_coefficients()
             RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[mob - 1];
         RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[mob] +=
             RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[mob - 1];
+        RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[mob] +=
+            RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[mob - 1];
     }
     for (uint64_t mob = 0; mob < rr_mob_id_max; ++mob)
     {
@@ -306,6 +371,8 @@ static void init_game_coefficients()
             RR_HELL_CREEK_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max - 1];
         RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[mob] /=
             RR_GARDEN_MOB_ID_RARITY_COEFFICIENTS[rr_mob_id_max - 1];
+        RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[mob] +=
+            RR_OCEAN_MOB_ID_RARITY_COEFFICIENTS[mob - 1];
     }
 }
 
@@ -485,6 +552,8 @@ void rr_static_data_init()
         RR_CRAFT_CHANCES[r] = get_prd_base(RR_BASE_CRAFT_CHANCES[r]);
     init_game_coefficients();
     init(HELL_CREEK);
+    init(GARDEN);
+    init(OCEAN);
     init(BURROW);
 #ifdef RR_SERVER
     print_chances(1);  // c
@@ -590,6 +659,91 @@ RR_DEFINE_MAZE(HELL_CREEK, 80) = {
 {_,L,L,L,L,L,L,L,L,_,m,m,m,_,_,_,M,_,_,M,M,M,M,M,_,_,x,_,_,_,x,x,x,x,X,X,X,X,X,_}, // 38
 {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_}, // 39
 };
+RR_DEFINE_MAZE(GARDEN, 82) = {
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,L,L,L,L,L,L,L,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,l,l,l,L,L,L,L,L,L,L,L,L,L,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,l,l,l,l,_,_,L,L,_,_,L,L,L,L,L,_,_,x,M,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,l,l,l,l,_,_,_,_,L,_,_,_,L,L,L,L,_,_,M,M,M,M,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,l,l,l,l,l,_,_,_,l,_,_,L,L,_,_,_,_,L,L,L,_,M,M,M,M,M,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,l,l,l,l,l,l,l,l,l,l,_,_,_,L,L,_,_,_,_,L,L,_,_,M,M,M,M,M,_,_,_,_,_},
+     {_,_,_,_,_,_,l,l,l,l,_,_,l,l,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,M,M,_,M,M,M,_,_,_,_},
+     {_,_,_,_,_,_,l,l,l,_,_,l,l,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,M,_,_,M,M,_,_,_,_},
+     {_,_,_,_,_,_,_,l,l,_,_,_,_,_,_,_,l,l,_,l,l,l,l,l,_,_,_,L,L,L,_,M,_,_,M,M,M,_,_,_},
+     {_,_,_,_,_,_,_,_,E,_,_,_,_,_,l,l,l,l,l,l,l,l,l,l,l,l,_,_,_,L,_,M,_,_,_,M,M,_,_,_},
+     {_,_,_,_,l,l,_,_,E,E,_,_,E,l,l,l,l,l,l,l,l,l,l,l,l,L,L,L,L,L,_,M,M,_,_,M,M,_,_,_},
+     {_,_,_,l,l,l,E,E,E,E,E,E,E,E,l,l,l,l,_,_,_,_,_,_,L,L,L,L,L,L,_,M,M,_,_,_,M,M,_,_},
+     {_,_,_,l,l,l,l,_,_,E,E,E,E,E,E,l,_,_,_,_,_,_,_,_,_,_,L,L,L,L,_,_,M,_,_,_,M,M,_,_},
+     {_,_,_,l,l,l,_,_,_,E,E,E,E,E,_,_,_,_,_,x,x,x,x,_,_,_,_,L,L,L,L,_,M,M,_,_,M,M,_,_},
+     {_,_,l,l,l,l,_,_,E,E,E,E,E,_,_,_,x,x,x,x,x,x,x,x,_,_,_,_,L,L,L,_,_,m,_,_,M,M,_,_},
+     {_,_,l,l,l,_,_,E,E,E,E,_,_,_,x,x,x,x,x,_,_,x,x,_,_,_,_,_,_,L,m,m,_,_,m,_,M,M,M,_},
+     {_,_,l,l,l,_,_,E,E,E,_,_,_,X,X,x,x,x,_,_,_,x,x,_,_,_,M,_,_,_,m,m,m,_,m,m,m,M,M,_},
+     {_,l,l,l,_,_,_,e,e,E,_,_,X,X,X,X,x,_,_,_,x,x,M,_,_,_,M,M,_,_,m,m,m,_,m,m,m,m,M,_},
+     {_,l,l,l,_,_,e,e,e,e,_,_,X,X,X,X,_,_,_,_,x,M,M,_,_,_,M,M,_,_,_,m,m,m,m,_,_,M,M,_},
+     {_,l,l,l,_,_,e,e,e,_,_,X,X,X,X,X,_,_,_,_,M,M,M,M,_,_,M,M,_,_,_,m,m,m,_,_,_,M,M,_},
+     {_,l,l,l,_,_,e,e,e,_,_,X,_,_,_,X,X,_,_,_,_,M,M,M,_,M,M,M,M,_,_,_,m,m,_,_,M,M,M,_},
+     {_,l,l,l,_,_,R,R,e,_,_,X,_,_,_,_,X,_,_,_,_,_,M,M,M,M,M,M,M,M,_,_,m,m,_,_,M,M,_,_},
+     {_,_,l,l,_,_,R,R,R,R,_,X,X,_,_,_,X,X,_,_,_,_,_,M,M,M,M,M,M,M,_,_,m,m,_,_,M,M,_,_},
+     {_,_,L,l,_,_,R,R,R,R,_,X,X,_,_,_,_,X,X,_,_,_,_,_,_,M,M,M,M,M,M,m,m,m,_,_,M,M,_,_},
+     {_,_,L,L,L,_,e,R,R,u,_,_,X,X,_,_,_,X,X,X,_,_,_,_,_,_,_,M,M,M,M,M,m,_,_,M,M,M,_,_},
+     {_,_,_,L,L,_,R,R,u,u,_,_,_,X,X,X,X,X,X,X,_,_,_,_,_,_,_,_,_,M,M,M,M,_,_,M,M,_,_,_},
+     {_,_,_,L,L,_,_,u,u,u,_,_,_,X,X,X,X,X,X,_,_,_,X,X,X,X,_,_,_,_,M,M,_,_,_,M,M,_,_,_},
+     {_,_,_,L,L,_,_,u,u,u,_,_,_,_,X,X,X,X,_,_,_,X,X,X,X,X,X,_,_,_,M,M,_,_,M,M,M,_,_,_},
+     {_,_,_,_,L,_,_,u,u,u,u,_,_,_,A,a,A,a,_,_,_,x,X,X,X,X,X,_,_,_,M,_,_,_,M,M,_,_,_,_},
+     {_,_,_,_,L,L,_,_,u,u,u,_,_,_,_,a,A,_,_,_,x,x,x,X,X,X,X,_,_,_,M,_,_,M,M,M,_,_,_,_},
+     {_,_,_,_,_,L,_,_,u,u,_,_,_,_,_,_,_,_,_,_,x,x,x,x,X,X,_,_,_,_,M,M,_,_,M,M,_,_,_,_},
+     {_,_,_,_,_,L,L,_,_,_,_,_,_,m,m,m,m,_,_,_,x,x,x,x,x,X,_,_,_,M,M,M,M,M,M,_,_,_,_,_},
+     {_,_,_,_,_,_,L,L,L,m,m,m,m,m,m,m,m,m,_,_,_,x,x,x,_,_,_,_,_,M,M,M,M,M,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,L,m,m,m,m,m,m,m,m,m,m,m,_,_,x,x,_,_,_,_,_,M,M,M,M,M,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,m,m,m,m,m,m,m,m,m,m,m,_,_,x,x,_,_,x,x,M,M,M,M,M,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,m,m,m,m,m,m,m,m,M,M,_,x,x,x,x,x,x,x,M,M,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,m,m,m,m,M,M,M,_,_,x,x,x,x,x,x,_,_,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,M,M,M,M,_,x,x,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+     {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_}
+};
+RR_DEFINE_MAZE(OCEAN, 82) = {
+    {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+    {_,_,_,_,_,_,_,_,_,_,_,_,l,l,l,l,l,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_},
+    {_,_,_,_,l,l,l,l,_,_,l,l,l,l,l,l,l,l,_,_,_,_,_,_,e,e,_,_,e,e,_,_,_,_,_,_,_,_,_,_,_},
+    {_,_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,_,_,_,e,e,e,e,e,e,e,_,_,_,_,_,_,_,_,_,_,_},
+    {_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,_,_,_,_,_,_,_,_,_},
+    {_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,e,e,_,_,_,_,_,_,_},
+    {_,_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,e,e,_,_,_,_,_,_,_},
+    {_,_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,e,e,_,_,_,_,_,_,_},
+    {_,_,_,_,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,e,e,e,_,_,_,_,_,_},
+    {_,_,_,_,l,l,l,l,l,m,m,m,m,m,m,m,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,e,e,c,c,_,_,_,_,_},
+    {_,_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,l,l,l,l,l,e,e,e,e,e,e,e,e,e,e,e,c,c,c,c,_,_,_,_,_},
+    {_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,l,l,l,l,e,e,e,e,e,e,e,e,e,e,c,c,c,c,c,_,_,_,_,_},
+    {_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,l,l,l,_,_,_,e,e,e,e,e,e,e,c,c,c,c,c,c,c,_,_,_,_},
+    {_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,_,_,_,e,e,e,e,e,e,c,c,c,c,c,c,c,c,_,_,_},
+    {_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,_,_,_,e,e,e,e,c,c,c,c,c,c,c,c,c,_,_,_},
+    {_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,_,_,_,e,e,e,e,c,c,c,c,c,c,c,c,c,c,_,_},
+    {_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,_,u,u,u,u,e,e,c,c,c,c,c,c,c,c,c,_,_},
+    {_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,_,u,u,u,u,u,c,c,c,c,c,c,c,c,c,c,_,_},
+    {_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,_,u,u,u,u,u,u,c,c,c,c,c,c,c,c,c,c,c,_},
+    {_,_,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,_,u,u,u,u,u,u,c,c,c,c,c,c,c,c,c,c,c,_},
+    {_,_,x,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,c,c,c,c},
+    {_,_,x,x,x,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,_,_,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,c,c,c,_},
+    {_,_,x,x,x,x,x,x,m,m,m,m,m,m,m,m,m,x,x,_,_,_,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,c,c,_,_},
+    {_,_,x,x,x,x,x,x,x,x,m,m,m,m,m,x,x,x,x,_,_,u,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,c,_,_,_},
+    {_,_,_,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,_,_,_,u,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,c,_,_,_},
+    {_,_,_,_,x,x,x,x,x,x,x,x,x,x,x,x,x,_,_,_,_,_,u,u,u,u,u,u,u,u,u,c,c,c,c,c,c,c,_,_,_},
+    {_,_,_,_,_,x,x,x,x,x,x,x,x,x,x,x,x,x,_,_,_,_,r,r,u,u,u,u,u,u,u,c,u,u,c,c,c,_,_,_,_},
+    {_,_,_,_,_,_,x,x,x,_,_,x,x,x,x,x,x,x,_,_,_,r,r,r,r,r,u,u,u,u,u,u,u,u,u,u,u,_,_,_,_},
+    {_,_,_,_,_,_,_,_,_,_,_,_,x,x,x,x,_,_,_,_,r,r,r,r,r,r,r,r,r,r,u,u,u,u,u,u,u,u,u,_,_},
+    {_,_,_,_,_,_,e,e,_,_,_,_,_,_,_,_,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,u,u,u,u,u,u,u,_,_},
+    {_,_,_,_,e,e,e,e,e,_,_,_,_,_,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,u,u,u,u,u,_},
+    {_,_,e,e,e,e,e,e,e,e,e,_,_,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,u,u,u,u,_},
+    {_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,u,_,_},
+    {_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,_,_},
+    {_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,_,_,_},
+    {_,_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,r,r,_,_,_,_},
+    {_,_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,r,r,_,_,_,_,_,_},
+    {_,_,_,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,e,r,r,r,r,r,r,r,r,r,r,_,_,_,_,_,_,_},
+    {_,_,_,_,e,e,e,e,e,e,_,_,e,e,e,e,e,e,e,e,_,_,_,_,_,r,r,r,r,r,r,r,_,_,_,_,_,_,_,_,_},
+    {_,_,_,_,_,_,e,e,_,_,_,_,_,_,e,e,_,_,_,_,_,_,_,_,_,_,_,r,r,_,_,_,_,_,_,_,_,_,_,_,_},
+    {_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_}
+};
 // clang-format on
 RR_DEFINE_MAZE(BURROW, 4) = {{1, 1}, {0, 1}};
 
@@ -609,10 +763,15 @@ struct rr_maze_declaration RR_MAZES[rr_biome_id_max] = {
         {3,  38, 3, 1, 4,  38, 100}, // 7
         {4,  24, 2, 2, 5,  25, 100}, // 8
     }},
-    {MAZE_ENTRY(HELL_CREEK, 1024), 0},
+    {MAZE_ENTRY(GARDEN, 1024), 0},
+    {MAZE_ENTRY(OCEAN, 1024), 0},
     {MAZE_ENTRY(BURROW, 512), 0},
 };
 
+
+//rr_biome_id_hell_creek;
+//rr_biome_id_garden;
+//rr_biome_id_ocean;
 uint8_t RR_GLOBAL_BIOME = rr_biome_id_hell_creek;
 #undef _
 #undef c
