@@ -159,7 +159,7 @@ extern struct rr_ui_element *rr_ui_flex_container_init(struct rr_ui_element *,
                                                        struct rr_ui_element *,
                                                        float);
 extern struct rr_ui_element *rr_ui_2d_container_init(uint8_t, uint8_t, float,
-                                                     float);
+                                                      float);
 extern struct rr_ui_element *rr_ui_tooltip_container_init();
 extern struct rr_ui_element *
 rr_ui_container_add_element(struct rr_ui_element *, struct rr_ui_element *);
@@ -250,6 +250,11 @@ extern struct rr_ui_element *rr_ui_dev_panel_toggle_button_init();
 extern struct rr_ui_element *rr_ui_dev_panel_container_init(struct rr_game *);
 
 extern struct rr_ui_element *rr_ui_fullscreen_toggle_button_init();
+
+/* added: changelog & credits ui externs */
+extern struct rr_ui_element *rr_ui_changelog_toggle_button_init();
+extern struct rr_ui_element *rr_ui_changelog_container_init();
+extern struct rr_ui_element *rr_ui_credits_container_init(struct rr_game *);
 
 extern struct rr_ui_element *rr_ui_biome_button_init(char *, uint32_t, uint8_t);
 
