@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -30,17 +30,20 @@ const port = 55554;
 const namespace = "/api";
 
 const DIRECTORY_SECRET = "a92pd3nf29d38tny9pr34dn3d908ntgb";
-const PASSWORD_SALT = process.env["PASSWORD_SALT"];
+const PASSWORD_SALT = process.env["PASSWORD_SALT"] || "";
 const CLOUD_TOKEN = "cloud.eyJ0eXAiOiJKV1QiLCJhbGciOiJFZERTQSJ9.CKOM_-XtMRCjtLqo-DAaEgoQjUflOmYrT3Sv5ckk4-Nk0yIWOhQKEgoQ6l7BiqssS-iYCw6PaqKKnA.Pgw_qDBaugBIFd7ilYcbbm_6yPNDeqreiDi1VBkKX84ER7CXvS-8abNuRhKtU_hDtgT9Sd4a7JWN68fdLnEKCA";
 const NAMESPACE_ID = "04cfba67-e965-4899-bcb9-b7497cc6863b";
 const SERVER_SECRET = "ad904nf3adrgnariwpanyf3qap8unri4t9b384wna3g34ytgdr4bwtvd4y";
 const CLIENT_ID = "1484371060425228408";
 const CLIENT_SECRET = process.env["CLIENT_SECRET"];
 const BOT_TOKEN = process.env["BOT_TOKEN"];
+const CLIENT_ID = "1453525695228678349";
+const CLIENT_SECRET = process.env["CLIENT_SECRET"] || "";
+const BOT_TOKEN = process.env["BOT_TOKEN"] || "";
 const MAX_PETAL_COUNT = 28;
 
 if (!PASSWORD_SALT || !CLIENT_SECRET || !BOT_TOKEN)
-    throw new Error("missing .env");
+    console.warn("missing .env");
 
 let database = {accounts: [], links: {}};
 let changed = false;
@@ -323,6 +326,23 @@ async function discord_oauth2(code) {
     return id;
 }
 
+async function discord_name(id) {
+    if (!id)
+        return "";
+    try {
+        const res = await fetch("https://discord.com/api/v10/users/" + id, {
+            headers: {
+                "Authorization": "Bot " + BOT_TOKEN
+            }
+        });
+        if (!res.ok) throw new Error([res.url, res.status, res.statusText, await res.text()].join(" "));
+        return (await res.json())["username"];
+    } catch (e) {
+        console.error(e);
+        return id;
+    }
+}
+
 app.get(`${namespace}/account_link/:old_username/:old_password/:username/:password`, async (req, res) => {
     const {old_username, old_password, username, password} = req.params;
     handle_error(res, async () => {
@@ -456,7 +476,7 @@ wss.on("connection", (ws, req) => {
                     }
                     user.password = hash(user.username + PASSWORD_SALT);
                     write_db_entry(user.username, user);
-                    connected_clients[user.username] = new GameClient(user, game_server.alias, nonce);
+                    connected_clients[user.username] = new GameClient(user, game_server.alias, nonce, await discord_name(user.discord_id));
                     game_server.clients[pos] = user.username;
                     const encoder = new protocol.BinaryWriter();
                     encoder.WriteUint8(1);

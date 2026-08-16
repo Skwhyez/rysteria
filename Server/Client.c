@@ -263,6 +263,7 @@ int rr_server_client_read_from_api(struct rr_server_client *this,
     rr_binary_encoder_read_nt_string(encoder, this->rivet_account.uuid);
     rr_binary_encoder_read_nt_string(encoder, this->rivet_account.token);
     rr_binary_encoder_read_nt_string(encoder, this->rivet_account.name);
+    rr_binary_encoder_read_nt_string(encoder, this->rivet_account.id);
     if (this->dev)
     {
         this->checkpoint = 0;

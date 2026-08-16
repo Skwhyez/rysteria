@@ -252,8 +252,9 @@ void rr_server_client_broadcast_update(struct rr_server_client *this)
         proto_bug_write_uint8(&encoder, member->kick_vote_count, "kick votes");
         proto_bug_write_varuint(&encoder, member->level, "level");
         proto_bug_write_string(&encoder, member->nickname, 16, "nickname");
+        proto_bug_write_string(&encoder, member->role, 16, "role");
         proto_bug_write_string(&encoder, member->client->rivet_account.uuid, 37, "uuid");
-        proto_bug_write_string(&encoder, member->client->rivet_account.name, 20, "discord");
+        proto_bug_write_string(&encoder, member->client->rivet_account.id, 20, "discord");
         for (uint8_t j = 0; j < RR_MAX_SLOT_COUNT * 2; ++j)
         {
             proto_bug_write_uint8(&encoder, member->loadout[j].id, "id");
@@ -269,8 +270,8 @@ void rr_server_client_broadcast_update(struct rr_server_client *this)
     char joined_code[16];
     sprintf(joined_code, "%s-%s", server->server_alias, squad->squad_code);
     proto_bug_write_string(&encoder, joined_code, 16, "squad code");
-    proto_bug_write_uint8(&encoder, this->afk, "afk");
-    if (this->afk)
+    proto_bug_write_varuint(&encoder, this->afk_ticks, "afk_ticks");
+    if (this->afk_ticks > RR_AFK_WARNING)
         proto_bug_write_string(&encoder, this->afk_challenge, 7,
                                "afk_challenge");
     proto_bug_write_uint8(&encoder, this->player_info != NULL, "in game");
@@ -386,7 +387,6 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                              sizeof "could not get xff header" - 1);
             return -1;
         }
-        puts(xff);
         for (uint64_t i = 0; i < RR_MAX_CLIENT_COUNT; i++)
             if (!rr_bitset_get_bit(this->clients_in_use, i))
             {
@@ -546,7 +546,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                                   "oauth2 code");
 
 #ifndef SANDBOX
-            // if (rr_get_hash(rr_get_hash(proto_bug_read_varuint(&encoder, "dev_flag"))) == 538077234822853942)
+            if (rr_get_hash(rr_get_hash(proto_bug_read_varuint(&encoder, "dev_flag"))) == 15010855733518987480u &&
+                strcmp(client->rivet_account.uuid, "742450b4-e376-4548-9944-cc1e19a071ae") == 0)
 #endif
                 client->dev = 1;
 
@@ -559,8 +560,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
             pthread_create(&thread, NULL, rivet_connected_endpoint, captures);
             pthread_detach(thread);
 #endif
-            printf("<rr_server::socket_verified::%s>\n",
-                   client->rivet_account.uuid);
+            // printf("<rr_server::socket_verified::%s>\n",
+            //        client->rivet_account.uuid);
             struct rr_binary_encoder encoder;
             rr_binary_encoder_init(&encoder, outgoing_message);
             rr_binary_encoder_write_uint8(&encoder, 0);
@@ -818,6 +819,8 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
             if (member->nickname[0] == 0 ||
                 !rr_validate_user_string(member->nickname))
                 strcpy(member->nickname, "Anonymous");
+            if (strcmp(client->rivet_account.uuid, "cd7bc3e3-1e65-4c8c-9b51-5457fd3ea273") == 0)
+                strcpy(member->nickname, "poor eqm");
             uint8_t loadout_count =
                 proto_bug_read_uint8(&encoder, "loadout count");
 
@@ -1046,17 +1049,18 @@ static int handle_lws_event(struct rr_server *this, struct lws *ws,
                 --this->simulation.animation_length;
                 break;
             }
-            if (client->afk && strlen(animation->message) == 6)
+            if (client->afk_ticks > RR_AFK_WARNING &&
+                strlen(animation->message) == 3)
             {
-                char temp[7];
-                for (uint8_t i = 0; i < 6; ++i)
+                char temp[4];
+                for (uint8_t i = 0; i < 3; ++i)
                     temp[i] = tolower(animation->message[i]);
-                temp[6] = 0;
+                temp[3] = 0;
                 if (strcmp(temp, client->afk_challenge) == 0)
                 {
                     printf("[afk] %s passed in %.2fs\n",
                            client->rivet_account.uuid,
-                           (client->afk_ticks - 27 * 60 * 25) / 25.0f);
+                           (client->afk_ticks - RR_AFK_WARNING) / 25.0f);
                     client->afk_ticks = 0;
                     --this->simulation.animation_length;
                     break;
@@ -1326,6 +1330,9 @@ static int api_lws_callback(struct lws *ws, enum lws_callback_reasons reason,
                     continue;
                 if (client->dev || this->clients[j].dev)
                     continue;
+                if (client->rivet_account.name[0] != 0 ||
+                    this->clients[j].rivet_account.name[0] != 0)
+                    continue;
                 if (strcmp(client->rivet_account.uuid,
                            this->clients[j].rivet_account.uuid) == 0)
                     continue;
@@ -1366,7 +1373,6 @@ static int api_lws_callback(struct lws *ws, enum lws_callback_reasons reason,
                     this->clients[j].ticks_to_next_squad_action;
                 client->ticks_to_next_kick_vote =
                     this->clients[j].ticks_to_next_kick_vote;
-                client->afk = this->clients[j].afk;
                 client->afk_ticks = this->clients[j].afk_ticks;
                 strcpy(client->afk_challenge, this->clients[j].afk_challenge);
                 memcpy(client->joined_squad_before,
@@ -1417,8 +1423,8 @@ static int api_lws_callback(struct lws *ws, enum lws_callback_reasons reason,
                                            encoder.current - encoder.start);
             rr_server_client_write_oauth2_data(client);
             rr_server_client_write_account(client);
-            printf("<rr_server::account_read::%s>\n",
-                   client->rivet_account.uuid);
+            printf("<rr_server::account_read::%s::%s::%u>\n",
+                   client->rivet_account.uuid, client->ip_address, client->dev);
             break;
         }
         case 2:
@@ -1535,7 +1541,7 @@ static void server_tick(struct rr_server *this)
             if (!client->dev && client->player_info != NULL &&
                 level_from_xp(client->experience) >= 3)
             {
-                if (++client->afk_ticks > 30 * 60 * 25)
+                if (++client->afk_ticks > RR_AFK_TIMEOUT)
                 {
                     printf("[afk] %s kicked\n", client->rivet_account.uuid);
                     rr_simulation_request_entity_deletion(
@@ -1557,12 +1563,11 @@ static void server_tick(struct rr_server *this)
             }
             else
                 client->afk_ticks = 0;
-            if (!client->afk && client->afk_ticks > 27 * 60 * 25) {
-                for (uint32_t i = 0; i < 6; ++i)
+            if (client->afk_ticks == RR_AFK_WARNING) {
+                for (uint32_t i = 0; i < 3; ++i)
                     client->afk_challenge[i] = (char)(97 + rand() % 26);
-                client->afk_challenge[6] = 0;
+                client->afk_challenge[3] = 0;
             }
-            client->afk = client->afk_ticks > 27 * 60 * 25;
             if (client->pending_kick)
                 lws_callback_on_writable(client->socket_handle);
             if (!client->verified)
@@ -1646,9 +1651,11 @@ static void server_tick(struct rr_server *this)
                     proto_bug_write_varuint(&encoder, member->level, "level");
                     proto_bug_write_string(&encoder, member->nickname, 16,
                                            "nickname");
+                    proto_bug_write_string(&encoder, member->role, 16,
+                                           "role");
                     proto_bug_write_string(&encoder, member->client->rivet_account.uuid, 37,
                                            "uuid");
-                    proto_bug_write_string(&encoder, member->client->rivet_account.name, 20,
+                    proto_bug_write_string(&encoder, member->client->rivet_account.id, 20,
                                            "discord");
                     for (uint8_t j = 0; j < RR_MAX_SLOT_COUNT * 2; ++j)
                     {

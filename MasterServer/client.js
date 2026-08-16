@@ -16,11 +16,12 @@
 
 class GameClient
 {
-    constructor(user, server, nonce) 
+    constructor(user, server, nonce, name) 
     {
         this.user = user;
         this.server = server;
         this.nonce = nonce;
+        this.name = name;
         this.needs_gameserver_update = false;
         this.needs_database_update = false;
     }
@@ -31,6 +32,7 @@ class GameClient
         encoder.WriteVarUint(this.nonce);
         encoder.WriteStringNT(user.username);
         encoder.WriteStringNT(user.password);
+        encoder.WriteStringNT(this.name);
         encoder.WriteStringNT(user.discord_id);
         encoder.WriteFloat64(user.xp);
         encoder.WriteUint8(user.checkpoint);

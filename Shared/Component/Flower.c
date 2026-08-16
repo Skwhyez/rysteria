@@ -97,7 +97,7 @@ void rr_component_flower_set_dead(struct rr_component_flower *this,
         player_info->input = 0;
         player_info->client->player_accel_x = 0;
         player_info->client->player_accel_y = 0;
-        if (player_info->client->dev)
+        if (player_info->client->dev || player_info->squad_member->role[0])
             rr_component_flower_set_face_flags(this, this->face_flags & ~3);
         else
             rr_component_flower_set_face_flags(this, this->face_flags | 1);

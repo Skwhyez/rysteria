@@ -198,6 +198,7 @@ struct rr_game
     EntityIdx player_infos[RR_SQUAD_MEMBER_COUNT];
     uint64_t dev_flag;
     float lerp_delta;
+    uint16_t afk_ticks;
 
     uint8_t socket_ready : 1;
     uint8_t socket_pending : 1;
@@ -211,7 +212,6 @@ struct rr_game
     uint8_t account_linked : 1;
     uint8_t is_dev : 1;
     uint8_t text_input_focused : 1;
-    uint8_t afk : 1;
     uint8_t socket_error;
     uint8_t menu_open;
     uint8_t ticks_until_text_cache;

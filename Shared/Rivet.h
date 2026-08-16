@@ -18,7 +18,7 @@
 
 #include <Shared/Utilities.h>
 
-#if defined(RIVET_BUILD) && !defined(EMSCRIPTEN)
+#if defined(RIVET_BUILD) && !defined(__EMSCRIPTEN__)
 #include <curl/curl.h>
 #endif
 
@@ -28,6 +28,7 @@ struct rr_rivet_account
     char code[500];
     char uuid[500];
     char name[500];
+    char id[500];
 };
 
 // user must define this function.

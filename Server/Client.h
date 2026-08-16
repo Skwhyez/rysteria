@@ -23,11 +23,13 @@
 #include <Shared/StaticData.h>
 
 #define dev_cheat_enabled(simulation, entity, cheat_name)                      \
-    (rr_simulation_has_player_info(simulation,                                 \
-        rr_simulation_get_relations(simulation, entity)->root_owner) &&        \
-        rr_simulation_get_player_info(simulation,                              \
-            rr_simulation_get_relations(simulation, entity)->root_owner)       \
-                ->client->dev_cheats.cheat_name)
+    (rr_simulation_entity_alive(simulation,                                    \
+         rr_simulation_get_relations(simulation, entity)->root_owner) &&       \
+     rr_simulation_has_player_info(simulation,                                 \
+         rr_simulation_get_relations(simulation, entity)->root_owner) &&       \
+     rr_simulation_get_player_info(simulation,                                 \
+         rr_simulation_get_relations(simulation, entity)->root_owner)          \
+             ->client->dev_cheats.cheat_name)
 
 struct rr_binary_encoder;
 
@@ -92,7 +94,6 @@ struct rr_server_client
     uint8_t in_use : 1;
     uint8_t pending_quick_join : 1;
     uint8_t disconnected : 1;
-    uint8_t afk : 1;
 };
 
 void rr_server_client_init(struct rr_server_client *);

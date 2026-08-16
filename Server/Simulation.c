@@ -67,7 +67,10 @@ static void set_special_zone(uint8_t biome, uint8_t (*fun)(), uint32_t x,
 #define ALL_MOBS 255
 #define DIFFICULT_MOBS 254
 
-uint8_t fern_zone() { return rr_mob_id_fern; }
+uint8_t fern_tree_zone()
+{
+    return rr_frand() > 0.1 ? rr_mob_id_fern : rr_mob_id_tree;
+}
 uint8_t pter_meteor_zone()
 {
     return rr_frand() > 0.02 ? rr_mob_id_pteranodon : rr_mob_id_meteor;
@@ -80,23 +83,45 @@ uint8_t trice_dako_zone()
 {
     return rr_frand() > 0.2 ? rr_mob_id_dakotaraptor : rr_mob_id_triceratops;
 }
-uint8_t anky_trex_zone()
+uint8_t trex_anky_zone()
 {
-    return rr_frand() > 0.2 ? rr_mob_id_ankylosaurus : rr_mob_id_trex;
+    return rr_frand() > 0.4 ? DIFFICULT_MOBS
+                            : rr_frand() > 0.5 ? rr_mob_id_ankylosaurus
+                                               : rr_mob_id_trex;
 }
 uint8_t edmo_zone() { return rr_mob_id_edmontosaurus; }
-// ~x5 tree chance
-uint8_t tree_zone() {
-    return rr_frand() > 0.0025 ? DIFFICULT_MOBS : rr_mob_id_tree;
+// ~x6 tree chance
+uint8_t tree_zone()
+{
+    return rr_frand() > 0.00325 ? DIFFICULT_MOBS : rr_mob_id_tree;
 }
-uint8_t pter_zone() {
+uint8_t pter_zone()
+{
     return rr_frand() > 0.2 ? rr_mob_id_pteranodon : ALL_MOBS;
 }
-uint8_t trex_zone() { return rr_mob_id_trex; }
-uint8_t quetz_anky_pachy_zone() {
-    return rr_frand() > 0.1 ? rr_mob_id_quetzalcoatlus
-                            : rr_frand() > 0.5 ? rr_mob_id_ankylosaurus
-                                               : rr_mob_id_pachycephalosaurus;
+uint8_t trex_zone()
+{
+    return rr_frand() > 0.2 ? rr_mob_id_trex : ALL_MOBS;
+}
+uint8_t quetz_zone()
+{
+    return rr_frand() > 0.7 ? rr_mob_id_quetzalcoatlus : ALL_MOBS;
+}
+uint8_t fern_pachy_zone()
+{
+    return rr_frand() > 0.5 ? DIFFICULT_MOBS
+                            : rr_frand() > 0.2 ? rr_mob_id_pachycephalosaurus
+                                               : rr_mob_id_fern;
+}
+uint8_t anky_zone()
+{
+    return rr_frand() > 0.3 ? ALL_MOBS : rr_mob_id_ankylosaurus;
+}
+uint8_t pter_edmo_zone()
+{
+    return rr_frand() > 0.4 ? DIFFICULT_MOBS
+                            : rr_frand() > 0.5 ? rr_mob_id_edmontosaurus
+                                               : rr_mob_id_pteranodon;
 }
 
 struct zone
@@ -108,20 +133,23 @@ struct zone
     uint8_t (*spawn_func)();
 };
 
-#define ZONE_POSITION_COUNT 0
+#define ZONE_POSITION_COUNT 14
 
 static struct zone zone_positions[ZONE_POSITION_COUNT] = {
-    // {4,  0,  7,  3, fern_zone},
-    // {16, 3,  5,  4, pter_meteor_zone},
-    // {17, 8,  3,  2, ornith_pachy_zone},
-    // {26, 11, 3,  3, trice_dako_zone},
-    // {10, 22, 4,  3, anky_trex_zone},
-    // {23, 22, 4,  3, edmo_zone},
-    // {16, 25, 5,  2, tree_zone},
-    // {13, 27, 11, 4, tree_zone},
-    // {2,  13, 6, 17, pter_zone},
-    // {25, 7,  4,  3, trex_zone},
-    // {32, 17, 4,  4, quetz_anky_pachy_zone},
+    {29, 26, 3,  2, fern_tree_zone},
+    {13, 19, 3,  2, pter_meteor_zone},
+    {3,  32, 5,  5, trice_dako_zone},
+    {7,  1,  4,  4, trex_anky_zone},
+    {8,  21, 4,  3, edmo_zone},
+    {19, 33, 5,  2, tree_zone},
+    {16, 35, 11, 4, tree_zone},
+    {7,  24, 4,  3, trex_zone},
+    {33, 3,  5,  5, quetz_zone},
+    {4,  9,  4,  4, fern_pachy_zone},
+    {7,  5,  4,  5, fern_pachy_zone},
+    {32, 7,  2,  2, anky_zone},
+    {32, 9,  5,  2, anky_zone},
+    {26, 6,  3,  4, pter_edmo_zone},
 };
 
 static void set_spawn_zones()
@@ -213,6 +241,7 @@ static void spawn_mob(struct rr_simulation *this, uint32_t grid_x,
                     id != rr_mob_id_ornithomimus &&
                     id != rr_mob_id_triceratops &&
                     id != rr_mob_id_fern &&
+                    id != rr_mob_id_tree &&
                     id != rr_mob_id_meteor)
                     break;
             }
@@ -251,6 +280,8 @@ static void count_flower_vicinity(EntityIdx entity, void *_simulation)
         rr_simulation_get_physical(this, entity);
     struct rr_component_relations *relations =
         rr_simulation_get_relations(this, entity);
+    if (!rr_simulation_entity_alive(this, relations->owner))
+        return;
     struct rr_component_player_info *player_info =
         rr_simulation_get_player_info(this, relations->owner);
     if (is_dead_flower(this, entity))

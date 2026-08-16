@@ -43,19 +43,19 @@ for (const uuid in db) {
 }
 
 console.log(new Date());
-console.log('#', 'uuid', 'xp', 'lvl', 'exos', 'aatts', 'mobs');
+console.log('#', 'uuid', 'xp', 'lvl', 'exos', 'aatts', 'mobs', 'discord');
 
 console.log('sorted by xp');
 arr.sort((a, b) => b.xp - a.xp);
 let i = 0;
-for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs);
+for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs, acc.discord_id || '');
 
 console.log('sorted by exos');
 arr.sort((a, b) => b.exos - a.exos);
 i = 0;
-for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs);
+for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs, acc.discord_id || '');
 
 console.log('sorted by mobs');
 arr.sort((a, b) => b.mobs - a.mobs);
 i = 0;
-for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs);
+for (const acc of arr.slice(0, 50)) console.log(++i, acc.id, acc.xp, acc.level, acc.exos, acc.aatts, acc.mobs, acc.discord_id || '');

@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 
-// #if defined(RR_CLIENT) && defined(EMSCRIPTEN) && defined(NDEBUG)
+// #if defined(RR_CLIENT) && defined(__EMSCRIPTEN__) && defined(NDEBUG)
 # if 0
 inline void rr_encrypt(uint8_t *start, uint64_t size, uint64_t key)
     __attribute__((always_inline));

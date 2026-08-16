@@ -212,7 +212,7 @@ static void system_velocity(EntityIdx id, void *simulation)
     }
     if (physical->pachy_stun_ticks > 0)
     {
-        if (!rr_simulation_has_petal(simulation, id))
+        if (!rr_simulation_has_petal(simulation, id) && !physical->bubbling)
             physical->acceleration_scale *= 0.5;
         --physical->pachy_stun_ticks;
     }

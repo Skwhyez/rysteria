@@ -80,6 +80,8 @@ enum rr_dev_cheat_type
     (level < (20 * (RR_MAX_SLOT_COUNT - 5))                                    \
         ? 5 + (level) / 20 : RR_MAX_SLOT_COUNT)
 #define RR_PLAYER_SPEED (4.0f)
+#define RR_AFK_TIMEOUT (30 * 60 * 25)
+#define RR_AFK_WARNING (27 * 60 * 25)
 
 enum rr_biome_id
 {
